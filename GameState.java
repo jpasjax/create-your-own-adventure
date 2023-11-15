@@ -22,6 +22,7 @@ public class GameState {
     List<Item> items;
     List<Item> playerInventory;
     List<NPC> npcs = new ArrayList<>();
+    Player player;
 
     public static int DISPLAY_WIDTH = 100;
 
@@ -45,11 +46,14 @@ public class GameState {
         
         // Create first (starting) location
         playerInventory = new ArrayList<>();
+        player = new Player();
         // (and store it in currentLocation so I can always referece where the player is
         // easily)
         
         // NPC'S THAT WILL BE ADDED IN THE GAME
         npcs.add(new NPC("Bob", "A friendly NPC.", "Hello, player!"));
+
+        // LOCATIONS IN THE GAME //
 
         // STARTING LOCATION - Room
         currentLocation = new Location();
@@ -65,15 +69,33 @@ public class GameState {
         GreatHall.name = "Great Hall";
         GreatHall.description = "You walk down the stairs and you are now in the Great Hall. Hogwarts main gathering place. There is a door to the south. But it's locked? How can I open the door?";
         GreatHall.lookaround = "You are in the Great Hall. There is a door to the south. But it's locked? How can open the door?, There is a mysterious key on one of the tables. I wonder what it's for?";
-        GreatHall.hasDoor = true;
 
-        currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); // Set the next location to the north of the current location
+        currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); 
+        commandSystem.addNoun("Great Hall");
+        // Set the next location to the north of the current location
         // currentLocation.nextLocation =  GreatHall;
 
-        // Add the new location to the command system
-        commandSystem.addNoun("Great Hall");
+        // THE NEXT LOCATION AFTER YOU GO EAST - Library
+        Location Library = new Location();
+        Library.name = "Library";
+        Library.description = "You are now in the Library. There are books everywhere.";
+        Library.lookaround = "You see books and a quiet study area.";
+        commandSystem.addNoun("Library");
 
-        
+        currentLocation.setAdjacentLocation(Direction.EAST, Library); // Set the next location to the east of the current location
+
+        // THE NEXT LOCATION AFTER YOU GO WEST - Potion Class
+        Location PotionClass = new Location();
+        PotionClass.name = "Potion Class";
+        PotionClass.description = "You are now in the Potion Class. There are potions brewing.";
+        PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes.";
+        commandSystem.addNoun("Potion Class");
+
+        currentLocation.setAdjacentLocation(Direction.WEST, PotionClass); // Set the next location to the west of the current location
+
+
+    // ITEMS //
+
         items = new ArrayList<>();
         Item key = new Item();
         key.name = "Key";
@@ -82,7 +104,11 @@ public class GameState {
         GreatHall.itemsHere.add(key);
 
         commandSystem.addNoun(key.name);
+
+        
     }
+
+    // METHODS //
 
     public void openDoor() {
         if (currentLocation.hasDoor && !currentLocation.isDoorOpen) {

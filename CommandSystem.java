@@ -50,6 +50,7 @@ public class CommandSystem {
         addVerb("use", "Use an item from your inventory.");
         addVerb("drop", "Drop an item from your inventory.");
         addVerb("talk", "Talk to an NPC.");
+        addVerb("health", "Check your current health.");
         addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the
                                            // CommandSystem.
     }
@@ -102,6 +103,9 @@ public class CommandSystem {
                 } else {
                     System.out.println("There's no one by that name here.");
                 }
+                break;
+            case "health":
+                System.out.println("Your current health is: " + state.player.health);
                 break;
             
         }
