@@ -43,12 +43,14 @@ public class CommandSystem {
         addVerb("open", "Open a door in your current area.");
         addVerb("pickup", "Pick up an item in your current area.");
         addVerb("inventory", "Display the items in your inventory.");
+        addVerb("use", "Use an item from your inventory.");
+        addVerb("drop", "Drop an item from your inventory.");
         addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the
                                            // CommandSystem.
     }
 
     // When a command is only one Verb this method controls the result.
-    public void executeVerb(String verb) {
+    public void executeVerb(String verb, String noun) {
         switch (verb) {
             case "l":
             case "look": // will show the description of the current room (stored in the state object)
@@ -65,10 +67,16 @@ public class CommandSystem {
                 state.openDoor();
                 break;
             case "pickup":
-                state.pickupItem(verb);
+                state.pickupItem(noun);
                 break;
             case "inventory":
                 state.displayInventory();
+                break;
+            case "use":
+                state.useItem(noun);
+                break;
+            case "drop":
+                state.dropItem(noun);
                 break;
             
         }

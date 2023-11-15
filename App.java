@@ -46,7 +46,7 @@ public class App {
 
                 // Command has 1 word - Check if it is a valid verb and execute it.
             } else if (input.length == 1 && commandSystem.hasVerb(input[0])) {
-                commandSystem.executeVerb(input[0]);
+                commandSystem.executeVerb(input[0], "");
 
                 // Command has 2 words - should be verb and noun.
             } else if (input.length == 2) {

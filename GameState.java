@@ -103,6 +103,43 @@ public class GameState {
             }
         }
     }
+    public void useItem(String itemName) {
+        Item itemToUse = null;
+        for (Item item : playerInventory) {
+            if (item.name.equalsIgnoreCase(itemName)) {
+                itemToUse = item;
+                break;
+            }
+        }
+    
+        if (itemToUse != null) {
+            if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen) {
+                currentLocation.isDoorOpen = true;
+                System.out.println("You use the key to open the door.");
+            } else {
+                System.out.println("You can't use the " + itemToUse.name + " here.");
+            }
+        } else {
+            System.out.println("You don't have a " + itemName + ".");
+        }
+    }
+    public void dropItem(String itemName) {
+        Item itemToDrop = null;
+        for (Item item : playerInventory) {
+            if (item.name.equalsIgnoreCase(itemName)) {
+                itemToDrop = item;
+                break;
+            }
+        }
+    
+        if (itemToDrop != null) {
+            playerInventory.remove(itemToDrop);
+            currentLocation.itemsHere.add(itemToDrop);
+            System.out.println("You dropped the " + itemToDrop.name + ".");
+        } else {
+            System.out.println("You don't have a " + itemName + ".");
+        }
+    }
 
     // other methods...
 }
