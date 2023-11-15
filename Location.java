@@ -16,14 +16,22 @@ public class Location {
     boolean isDoorOpen;
     Map<Direction, Location> adjacentLocations = new HashMap<>();
 
-    public void setAdjacentLocation(Direction direction, Location location) {
-        adjacentLocations.put(direction, location);
-    }
+
 
     public Location() {
         itemsHere = new ArrayList<>();
         exits = new ArrayList<>();
+        adjacentLocations = new HashMap<>();
     }
+
+    public void setAdjacentLocation(Direction direction, Location location) {
+        adjacentLocations.put(direction, location);
+    }
+
+    public Location getAdjacentLocation(Direction direction) {
+        return adjacentLocations.get(direction);
+    }
+
 
     public Location(String name, String description, String lookaround) {
         this();
@@ -31,6 +39,8 @@ public class Location {
         this.description = description;
         this.lookaround = lookaround;
     }
+
+    
 
     public Item getItem(String objectName) throws Exception {
         for (Item item : itemsHere) {
@@ -53,9 +63,6 @@ public class Location {
         exits.remove(exit);
     }
 
-    public Location getAdjacentLocation(Direction direction) {
-        return null;
-    }
 
     // Add getters and setters here
 }

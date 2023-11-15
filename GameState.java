@@ -18,11 +18,13 @@ import java.util.List;
 
 public class GameState {
     Location currentLocation;
+    Location GreatHall;
     CommandSystem commandSystem;
     List<Item> items;
     List<Item> playerInventory;
     List<NPC> npcs = new ArrayList<>();
     Player player;
+    List<Enemy> enemies;
 
     public static int DISPLAY_WIDTH = 100;
 
@@ -62,7 +64,6 @@ public class GameState {
         currentLocation.lookaround = "You are in your dorm room. There is a hallway you walk to in the north of your room";
         commandSystem.addNoun("north");
 
-        
 
         // THE NEXT LOCATION AFTER YOU GO NORTH- Great Hall
         Location GreatHall = new Location();
@@ -72,10 +73,11 @@ public class GameState {
         String[] nouns = {"door", "east"};
             for (String noun : nouns) {
             commandSystem.addNoun(noun);
+        currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); 
 }
 
-        currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); 
-        commandSystem.addNoun("Great Hall");
+        
+        
         // Set the next location to the north of the current location
         // currentLocation.nextLocation =  GreatHall;
 
@@ -204,6 +206,15 @@ public class GameState {
         for (NPC npc : npcs) {
             if (npc.name.equalsIgnoreCase(name)) {
                 return npc;
+            }
+        }
+        return null;
+    }
+    public Enemy findEnemy(String name) {
+        enemies = new ArrayList<>();
+        for (Enemy enemy : enemies) {
+            if (enemy.name.equals(name)) {
+                return enemy;
             }
         }
         return null;

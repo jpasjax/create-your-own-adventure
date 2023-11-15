@@ -17,5 +17,9 @@ public class Player {
             health = 0;
         }
     }
+
+    public void attack(Enemy enemy) {
+        enemy.health -= 10; // Or some other amount
+    }
     // Other methods...
 }

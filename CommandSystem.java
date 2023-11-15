@@ -51,6 +51,7 @@ public class CommandSystem {
         addVerb("drop", "Drop an item from your inventory.");
         addVerb("talk", "Talk to an NPC.");
         addVerb("health", "Check your current health.");
+        addVerb("attack", "Attack an enemy.");
         addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the
                                            // CommandSystem.
     }
@@ -85,7 +86,13 @@ public class CommandSystem {
                 state.dropItem(noun);
                 break;
             case "north":
-                state.move(Direction.NORTH);
+                Location nextLocation = state.currentLocation.getAdjacentLocation(Direction.NORTH);
+                if (nextLocation != null) {
+                    state.currentLocation = nextLocation;
+                    System.out.println(state.currentLocation.description);
+                } else {
+                    System.out.println("There's nothing in that direction.");
+                }
                 break;
             case "east":
                 state.move(Direction.EAST);
@@ -106,6 +113,17 @@ public class CommandSystem {
                 break;
             case "health":
                 System.out.println("Your current health is: " + state.player.health);
+                break;
+            case "attack":
+                Enemy enemy = state.findEnemy(noun);
+                if (enemy != null) {
+                    state.player.attack(enemy);
+                    if (enemy.health > 0) {
+                        enemy.attack(state.player);
+                    }
+                } else {
+                    System.out.println("There's no enemy by that name here.");
+                }
                 break;
             
         }
