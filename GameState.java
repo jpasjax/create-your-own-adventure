@@ -21,6 +21,7 @@ public class GameState {
     CommandSystem commandSystem;
     List<Item> items;
     List<Item> playerInventory;
+    List<NPC> npcs = new ArrayList<>();
 
     public static int DISPLAY_WIDTH = 100;
 
@@ -46,26 +47,39 @@ public class GameState {
         playerInventory = new ArrayList<>();
         // (and store it in currentLocation so I can always referece where the player is
         // easily)
+        
+        // NPC'S THAT WILL BE ADDED IN THE GAME
+        npcs.add(new NPC("Bob", "A friendly NPC.", "Hello, player!"));
+
+        // STARTING LOCATION - Room
         currentLocation = new Location();
         currentLocation.name = "Room";
-        currentLocation.description = "Welcome to Hogwarts School of Wizardry, young wizard. You are in a room. There is a door to the north.";
-        currentLocation.lookaround = "You are in a room. There is a door to the north.";
-        currentLocation.hasDoor = true;
-        currentLocation.isDoorOpen = false;
-        commandSystem.addNoun("Room");
+        currentLocation.description = "Welcome to Hogwarts School of Wizardry, young wizard. You are in your first year room. There is a hallway you walk to in the north of your room";
+        currentLocation.lookaround = "You are in your dorm room. There is a hallway you walk to in the north of your room";
+        commandSystem.addNoun("north");
 
-        Location livingRoom = new Location();
-        livingRoom.name = "Living Room";
-        livingRoom.description = "You find yourself in a cozy living room with a fireplace.";
+        
+
+        // THE NEXT LOCATION AFTER YOU GO NORTH- Great Hall
+        Location GreatHall = new Location();
+        GreatHall.name = "Great Hall";
+        GreatHall.description = "You walk down the stairs and you are now in the Great Hall. Hogwarts main gathering place. There is a door to the south. But it's locked? How can I open the door?";
+        GreatHall.lookaround = "You are in the Great Hall. There is a door to the south. But it's locked? How can open the door?, There is a mysterious key on one of the tables. I wonder what it's for?";
+        GreatHall.hasDoor = true;
+
+        currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); // Set the next location to the north of the current location
+        // currentLocation.nextLocation =  GreatHall;
 
         // Add the new location to the command system
-        commandSystem.addNoun("Living Room");
+        commandSystem.addNoun("Great Hall");
 
+        
         items = new ArrayList<>();
         Item key = new Item();
         key.name = "Key";
         key.description = "A shiny golden key.";
         items.add(key);
+        GreatHall.itemsHere.add(key);
 
         commandSystem.addNoun(key.name);
     }
@@ -74,6 +88,8 @@ public class GameState {
         if (currentLocation.hasDoor && !currentLocation.isDoorOpen) {
             currentLocation.isDoorOpen = true;
             System.out.println("You open the door.");
+            currentLocation = currentLocation.nextLocation; // Move to the next location
+            System.out.println(currentLocation.description);
         } else {
             System.out.println("There's no door to open.");
         }
@@ -145,13 +161,23 @@ public class GameState {
         }
     }
     public void move(Direction direction) {
-    Location nextLocation = currentLocation.getAdjacentLocation(direction);
-    if (nextLocation != null) {
-        currentLocation = nextLocation;
-        System.out.println(currentLocation.description);
-    } else {
-        System.out.println("You can't move in that direction.");
+        Location nextLocation = currentLocation.getAdjacentLocation(direction);
+        if (nextLocation != null) {
+            currentLocation = nextLocation;
+            System.out.println("You move to the " + currentLocation.name + ".");
+            System.out.println(currentLocation.description);
+        } else {
+            System.out.println("There's nothing in that direction.");
+        }
+    }
+    public NPC findNPC(String name) {
+        for (NPC npc : npcs) {
+            if (npc.name.equalsIgnoreCase(name)) {
+                return npc;
+            }
+        }
+        return null;
     }
 }
+    
     // other methods...
-}

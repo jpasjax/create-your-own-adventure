@@ -16,8 +16,8 @@ public class Location {
     boolean isDoorOpen;
     Map<Direction, Location> adjacentLocations = new HashMap<>();
 
-    public Location getAdjacentLocation(Direction direction) {
-        return adjacentLocations.get(direction);
+    public void setAdjacentLocation(Direction direction, Location location) {
+        adjacentLocations.put(direction, location);
     }
 
     public Location() {
@@ -51,6 +51,10 @@ public class Location {
 
     public void removeExit(Location exit) {
         exits.remove(exit);
+    }
+
+    public Location getAdjacentLocation(Direction direction) {
+        return null;
     }
 
     // Add getters and setters here

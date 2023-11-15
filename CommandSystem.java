@@ -49,6 +49,7 @@ public class CommandSystem {
         addVerb("inventory", "Display the items in your inventory.");
         addVerb("use", "Use an item from your inventory.");
         addVerb("drop", "Drop an item from your inventory.");
+        addVerb("talk", "Talk to an NPC.");
         addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the
                                            // CommandSystem.
     }
@@ -83,17 +84,25 @@ public class CommandSystem {
                 state.dropItem(noun);
                 break;
             case "north":
-            state.move(Direction.NORTH);
-            break;
+                state.move(Direction.NORTH);
+                break;
             case "east":
-            state.move(Direction.EAST);
-            break;
+                state.move(Direction.EAST);
+                break;
             case "south":
-            state.move(Direction.SOUTH);
-            break;
+                state.move(Direction.SOUTH);
+                break;
             case "west":
-            state.move(Direction.WEST);
-            break;
+                state.move(Direction.WEST);
+                break;
+            case "talk":
+                NPC npc = state.findNPC(noun);
+                if (npc != null) {
+                    npc.talk();
+                } else {
+                    System.out.println("There's no one by that name here.");
+                }
+                break;
             
         }
     }
