@@ -14,6 +14,8 @@ This starter code is designed for the verbs to be stored in the commandSystem.
 import java.util.ArrayList;
 import java.util.List;
 
+// No import statement needed
+
 public class GameState {
     Location currentLocation;
     CommandSystem commandSystem;
@@ -104,25 +106,27 @@ public class GameState {
         }
     }
     public void useItem(String itemName) {
-        Item itemToUse = null;
-        for (Item item : playerInventory) {
-            if (item.name.equalsIgnoreCase(itemName)) {
-                itemToUse = item;
-                break;
-            }
-        }
-    
-        if (itemToUse != null) {
-            if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen) {
-                currentLocation.isDoorOpen = true;
-                System.out.println("You use the key to open the door.");
-            } else {
-                System.out.println("You can't use the " + itemToUse.name + " here.");
-            }
-        } else {
-            System.out.println("You don't have a " + itemName + ".");
+    Item itemToUse = null;
+    for (Item item : playerInventory) {
+        if (item.name.equalsIgnoreCase(itemName)) {
+            itemToUse = item;
+            break;
         }
     }
+
+    if (itemToUse != null) {
+        if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen) {
+            currentLocation.isDoorOpen = true;
+            System.out.println("You use the key to open the door.");
+            currentLocation = currentLocation.nextLocation; // Move to the next location
+            System.out.println(currentLocation.description); // Print the description of the new location
+        } else {
+            System.out.println("You can't use the " + itemToUse.name + " here.");
+        }
+    } else {
+        System.out.println("You don't have a " + itemName + ".");
+    }
+}
     public void dropItem(String itemName) {
         Item itemToDrop = null;
         for (Item item : playerInventory) {
@@ -140,6 +144,14 @@ public class GameState {
             System.out.println("You don't have a " + itemName + ".");
         }
     }
-
+    public void move(Direction direction) {
+    Location nextLocation = currentLocation.getAdjacentLocation(direction);
+    if (nextLocation != null) {
+        currentLocation = nextLocation;
+        System.out.println(currentLocation.description);
+    } else {
+        System.out.println("You can't move in that direction.");
+    }
+}
     // other methods...
 }

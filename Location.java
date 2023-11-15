@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a location in the game.
@@ -9,8 +11,14 @@ public class Location {
     String lookaround;
     ArrayList<Item> itemsHere;
     ArrayList<Location> exits;
+    Location nextLocation;
     boolean hasDoor;
     boolean isDoorOpen;
+    Map<Direction, Location> adjacentLocations = new HashMap<>();
+
+    public Location getAdjacentLocation(Direction direction) {
+        return adjacentLocations.get(direction);
+    }
 
     public Location() {
         itemsHere = new ArrayList<>();

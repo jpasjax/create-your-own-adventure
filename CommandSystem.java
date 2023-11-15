@@ -40,6 +40,10 @@ public class CommandSystem {
         addVerb("look",
                 "Use the look command by itself to look in your current area. \nYou can also look at a person or object by ntyping look and the name of what you want to look at.\nExample: look book");
         addVerb("l", "Same as the look command.");
+        addVerb("north", "Move to the north.");
+        addVerb("east", "Move to the east.");
+        addVerb("south", "Move to the south.");
+        addVerb("west", "Move to the west.");
         addVerb("open", "Open a door in your current area.");
         addVerb("pickup", "Pick up an item in your current area.");
         addVerb("inventory", "Display the items in your inventory.");
@@ -78,6 +82,18 @@ public class CommandSystem {
             case "drop":
                 state.dropItem(noun);
                 break;
+            case "north":
+            state.move(Direction.NORTH);
+            break;
+            case "east":
+            state.move(Direction.EAST);
+            break;
+            case "south":
+            state.move(Direction.SOUTH);
+            break;
+            case "west":
+            state.move(Direction.WEST);
+            break;
             
         }
     }
