@@ -1,36 +1,48 @@
 import java.util.ArrayList;
 
+/**
+ * Represents a location in the game.
+ */
 public class Location {
-    // State of the location object
     String name;
     String description;
     String lookaround;
-
-    // Use ArrayList instead of arrays
-    ArrayList<Item> itemsHere; // to hold all of the items in this location.
-    ArrayList<Location> exits; // to hold all of the locations that you can get to from this location.
+    ArrayList<Item> itemsHere;
+    ArrayList<Location> exits;
 
     public Location() {
         itemsHere = new ArrayList<>();
         exits = new ArrayList<>();
     }
 
-    public Item getItem(String objectName) {
-        // Find the item in itemsHere and return it.
+    public Location(String name, String description, String lookaround) {
+        this();
+        this.name = name;
+        this.description = description;
+        this.lookaround = lookaround;
+    }
+
+    public Item getItem(String objectName) throws Exception {
         for (Item item : itemsHere) {
             if (item.name.equals(objectName)) {
                 return item;
             }
         }
-        return null; // Return null if the item is not found.
+        throw new Exception("Item " + objectName + " not found.");
+    }
+
+    public void removeItem(Item item) {
+        itemsHere.remove(item);
     }
 
     public void addExit(Location exit) {
-        // Add a location to the exits list.
         exits.add(exit);
     }
 
+    public void removeExit(Location exit) {
+        exits.remove(exit);
+    }
 
+    // Add getters and setters here
 }
-
 
