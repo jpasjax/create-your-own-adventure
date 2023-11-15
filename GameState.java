@@ -67,8 +67,12 @@ public class GameState {
         // THE NEXT LOCATION AFTER YOU GO NORTH- Great Hall
         Location GreatHall = new Location();
         GreatHall.name = "Great Hall";
-        GreatHall.description = "You walk down the stairs and you are now in the Great Hall. Hogwarts main gathering place. There is a door to the south. But it's locked? How can I open the door?";
-        GreatHall.lookaround = "You are in the Great Hall. There is a door to the south. But it's locked? How can open the door?, There is a mysterious key on one of the tables. I wonder what it's for?";
+        GreatHall.description = "You walk down the stairs and you are now in the Great Hall. Hogwarts main gathering place. There is a door close by. But it's locked. \n There is also another flight of stairs to the east.";
+        GreatHall.lookaround = "You are in the Great Hall. There is a door to the south. But it's locked? How can open the door?, There is a mysterious key on one of the tables. I wonder what it's for? Maybe it's for the door?";
+        String[] nouns = {"door", "east"};
+            for (String noun : nouns) {
+            commandSystem.addNoun(noun);
+}
 
         currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); 
         commandSystem.addNoun("Great Hall");

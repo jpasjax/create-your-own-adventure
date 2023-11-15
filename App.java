@@ -30,6 +30,15 @@ public class App {
         // This controls if the game should continue running.
         boolean gameRunning = true;
 
+        // Welcome message
+        System.out.println("------------------------------");
+        System.out.println("Welcome to Hogwarts! Choose your own adventure and see if you can survive! \nCreated by Jackson Smith and Benjamin Gold");
+        System.out.println("Type ? for help.");
+        System.out.println("------------------------------");
+        System.out.println(state.currentLocation.description);
+        
+
+
         // The main game loop.
         while (gameRunning) {
 
