@@ -11,9 +11,14 @@ This starter code is designed for the verbs to be stored in the commandSystem.
 
 */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameState {
     Location currentLocation;
     CommandSystem commandSystem;
+    List<Item> items;
+    List<Item> playerInventory;
 
     public static int DISPLAY_WIDTH = 100;
 
@@ -30,17 +35,21 @@ public class GameState {
      * 
      * You should do better!
      */
+
+     
     public GameState() {
         commandSystem = new CommandSystem(this);
-
-        // Create first (starting) location
         
+        // Create first (starting) location
+        playerInventory = new ArrayList<>();
         // (and store it in currentLocation so I can always referece where the player is
         // easily)
         currentLocation = new Location();
         currentLocation.name = "Room";
         currentLocation.description = "Welcome to Hogwarts School of Wizardry, young wizard. You are in a room. There is a door to the north.";
         currentLocation.lookaround = "You are in a room. There is a door to the north.";
+        currentLocation.hasDoor = true;
+        currentLocation.isDoorOpen = false;
         commandSystem.addNoun("Room");
 
         Location livingRoom = new Location();
@@ -49,27 +58,51 @@ public class GameState {
 
         // Add the new location to the command system
         commandSystem.addNoun("Living Room");
-        
 
-        // Create a demo item.
-        Item mat = new Item(); // There is an error here. Remember how variable scope works and fix this.
-        mat.name = "Mat";
-        mat.description = "There is a welcome mat here. This is a special mat.";
-
+        items = new ArrayList<>();
         Item key = new Item();
         key.name = "Key";
         key.description = "A shiny golden key.";
+        items.add(key);
 
-
-        // Add item to list of nouns so our command system knows it exists.
-        commandSystem.addNoun(mat.name);
         commandSystem.addNoun(key.name);
-
-
-        /*
-         * Once the commandSystem knows about the item, we need to code what happens
-         * with each of the commands that can happen with the item.
-         * See CommandSystem line 96 for what happens if you currently "look mat"
-         */
     }
+
+    public void openDoor() {
+        if (currentLocation.hasDoor && !currentLocation.isDoorOpen) {
+            currentLocation.isDoorOpen = true;
+            System.out.println("You open the door.");
+        } else {
+            System.out.println("There's no door to open.");
+        }
+    }
+    public void pickupItem(String itemName) {
+        Item itemToPickup = null;
+        for (Item item : currentLocation.itemsHere) {
+            if (item.name.equalsIgnoreCase(itemName)) {
+                itemToPickup = item;
+                break;
+            }
+        }
+    
+        if (itemToPickup != null) {
+            currentLocation.itemsHere.remove(itemToPickup);
+            playerInventory.add(itemToPickup);
+            System.out.println("You picked up the " + itemToPickup.name + ".");
+        } else {
+            System.out.println("There's no " + itemName + " to pick up.");
+        }
+    }
+    public void displayInventory() {
+        if (playerInventory.isEmpty()) {
+            System.out.println("Your inventory is empty.");
+        } else {
+            System.out.println("Your inventory:");
+            for (Item item : playerInventory) {
+                System.out.println("- " + item.name);
+            }
+        }
+    }
+
+    // other methods...
 }

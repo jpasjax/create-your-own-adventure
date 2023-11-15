@@ -40,6 +40,9 @@ public class CommandSystem {
         addVerb("look",
                 "Use the look command by itself to look in your current area. \nYou can also look at a person or object by ntyping look and the name of what you want to look at.\nExample: look book");
         addVerb("l", "Same as the look command.");
+        addVerb("open", "Open a door in your current area.");
+        addVerb("pickup", "Pick up an item in your current area.");
+        addVerb("inventory", "Display the items in your inventory.");
         addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the
                                            // CommandSystem.
     }
@@ -57,6 +60,15 @@ public class CommandSystem {
                 break;
             case "help":
                 this.printHelp();
+                break;
+            case "open":
+                state.openDoor();
+                break;
+            case "pickup":
+                state.pickupItem(verb);
+                break;
+            case "inventory":
+                state.displayInventory();
                 break;
             
         }

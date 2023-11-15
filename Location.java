@@ -9,6 +9,8 @@ public class Location {
     String lookaround;
     ArrayList<Item> itemsHere;
     ArrayList<Location> exits;
+    boolean hasDoor;
+    boolean isDoorOpen;
 
     public Location() {
         itemsHere = new ArrayList<>();

@@ -96,7 +96,6 @@ public class App {
     // seperates the input into each word (determined by whitespace)
     // returns an array with each word an element of the array.
     public static String[] getCommand(GameState state) {
-        System.out.println(state.currentLocation.description);
         System.out.println("\n------------------------------");
         System.out.print("What would you like to do? >  ");
         String input = in.nextLine();
