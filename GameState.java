@@ -20,6 +20,10 @@ public class GameState {
     Location currentLocation;
     Location GreatHall;
     Location SouthofDoor;
+    Location Library;
+    Location RestrictedSection;
+    Location PotionClass;
+    Location FirstBossFight;
     CommandSystem commandSystem;
     List<Item> items;
     List<Item> playerInventory;
@@ -48,6 +52,7 @@ public class GameState {
         commandSystem = new CommandSystem(this);
         
         // Create first (starting) location
+        items = new ArrayList<>();
         playerInventory = new ArrayList<>();
         player = new Player();
         // (and store it in currentLocation so I can always referece where the player is
@@ -88,7 +93,11 @@ public class GameState {
         SouthofDoor.lookaround = "There is a key on the ground. I wonder if it will open the door.";
         commandSystem.addNoun("key");
         commandSystem.addNoun("door");
-        
+
+        Location FirstBossFight = new Location();
+        FirstBossFight.name = "First Boss Fight";
+        FirstBossFight.description = "You feel a cold prescence.......... \n The door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
+        FirstBossFight.lookaround = "You see a dementor. You must fight it in order to continue. \n ";
 
         
 
@@ -98,6 +107,9 @@ public class GameState {
         Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. There is a door to the west. Maybe the library has a secret room. \n You can also go back to the Great Hall by going west.";
         Library.lookaround = "You see books and a quiet study area. But there is a mysterious door to the west. There is a key on the library desk.";
         commandSystem.addNoun("key");
+
+        Location RestrictedSection = new Location();
+        RestrictedSection.name = "Restricted Section";
         
         // Set the next location to the east of the current location
 
@@ -124,11 +136,19 @@ public class GameState {
 
     // ITEMS //
 
+        Item wand = new Item();
+        wand.name = "Wand";
+        wand.description = "A magical wand.";
+        items.add(wand);
+        playerInventory.add(wand);
+        commandSystem.addNoun("wand");
+
         items = new ArrayList<>();
         Item key = new Item();
         key.name = "Key";
         key.description = "A shiny golden key.";
         items.add(key);
+        commandSystem.addNoun("key");
 
         // ITEMS IN LOCATIONS //
         SouthofDoor.itemsHere.add(key); // Add the key to the SouthofDoor location

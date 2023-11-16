@@ -66,11 +66,11 @@ public class CommandSystem {
             noun = parts.length > 2 ? parts[2] : "";
         }
 
-        executeVerb(verb, noun);
+        executeVerb(verb);
     }
     
     // When a command is only one Verb this method controls the result.
-    public void executeVerb(String verb, String noun) {
+    public void executeVerb(String verb) {
         switch (verb) {
             case "l":
             case "look": // will show the description of the current room (stored in the state object)
@@ -86,17 +86,8 @@ public class CommandSystem {
             case "open":
                 state.openDoor();
                 break;
-            case "pickup":
-                state.pickupItem(noun);
-                break;
             case "inventory":
                 state.displayInventory();
-                break;
-            case "use":
-                state.useItem(noun);
-                break;
-            case "drop":
-                state.dropItem(noun);
                 break;
             case "north":
                 state.move(Direction.NORTH);
@@ -110,27 +101,8 @@ public class CommandSystem {
             case "west":
                 state.move(Direction.WEST);
                 break;
-            case "talk":
-                NPC npc = state.findNPC(noun);
-                if (npc != null) {
-                    npc.talk();
-                } else {
-                    System.out.println("There's no one by that name here.");
-                }
-                break;
             case "health":
                 System.out.println("Your current health is: " + state.player.health);
-                break;
-            case "attack":
-                Enemy enemy = state.findEnemy(noun);
-                if (enemy != null) {
-                    state.player.attack(enemy);
-                    if (enemy.health > 0) {
-                        enemy.attack(state.player);
-                    }
-                } else {
-                    System.out.println("There's no enemy by that name here.");
-                }
                 break;
             
         }
@@ -153,6 +125,35 @@ public class CommandSystem {
             case "l":
             case "look":
                 resultString = lookAt(noun);
+                break;
+            case "pickup":
+                state.pickupItem(noun);
+                break;
+            case "attack":
+                Enemy enemy = state.findEnemy(noun);
+                if (enemy != null) {
+                    state.player.attack(enemy);
+                    if (enemy.health > 0) {
+                        enemy.attack(state.player);
+                    }
+                } else {
+                    System.out.println("There's no enemy by that name here.");
+                }
+                break;
+            case "talk":
+                NPC npc = state.findNPC(noun);
+                if (npc != null) {
+                    npc.talk();
+                } else {
+                    System.out.println("There's no one by that name here.");
+                }
+                break;
+            case "use":
+                state.useItem(noun);
+                break;
+            case "drop":
+                state.dropItem(noun);
+                break;
         }
 
         gameOutput(resultString);
