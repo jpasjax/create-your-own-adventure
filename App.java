@@ -41,6 +41,7 @@ public class App {
 
         // The main game loop.
         while (gameRunning) {
+            
 
             // Gets input from the user in an array of strings that they typed in.
             String[] input = getCommand(state);

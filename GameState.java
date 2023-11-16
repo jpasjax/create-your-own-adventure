@@ -19,6 +19,7 @@ import java.util.List;
 public class GameState {
     Location currentLocation;
     Location GreatHall;
+    Location SouthofDoor;
     CommandSystem commandSystem;
     List<Item> items;
     List<Item> playerInventory;
@@ -87,9 +88,7 @@ public class GameState {
         SouthofDoor.lookaround = "There is a key on the ground. I wonder if it will open the door.";
         commandSystem.addNoun("key");
         commandSystem.addNoun("door");
-        SouthofDoor.key = true;
-        SouthofDoor.hasDoor = true;
-        SouthofDoor.isDoorOpen = false;
+        
 
         
 
@@ -130,8 +129,10 @@ public class GameState {
         key.name = "Key";
         key.description = "A shiny golden key.";
         items.add(key);
-        SouthofDoor.itemsHere.add(key);
-        commandSystem.addNoun(key.name);
+
+        // ITEMS IN LOCATIONS //
+        SouthofDoor.itemsHere.add(key); // Add the key to the SouthofDoor location
+        Library.itemsHere.add(key); // Add the key to the Library location
 
         
     }

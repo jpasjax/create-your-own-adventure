@@ -56,6 +56,19 @@ public class CommandSystem {
                                            // CommandSystem.
     }
 
+    public void processInput(String input) {
+        String[] parts = input.split(" ");
+        String verb = parts[0];
+        String noun = parts.length > 1 ? parts[1] : "";
+
+        if (verb.equalsIgnoreCase("go") && parts.length > 1) {
+            verb = noun;
+            noun = parts.length > 2 ? parts[2] : "";
+        }
+
+        executeVerb(verb, noun);
+    }
+    
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb, String noun) {
         switch (verb) {
@@ -122,6 +135,8 @@ public class CommandSystem {
             
         }
     }
+
+    
 
     // When a command is a Verb followed by a noun, this method controls the result.
     public void executeVerbNoun(String verb, String noun) {
@@ -342,5 +357,7 @@ public class CommandSystem {
     public boolean hasNoun(String string) {
         return nouns.contains(string);
     }
+
+    
 
 }
