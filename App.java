@@ -50,7 +50,7 @@ public class App {
 
             } else if (input[0].equalsIgnoreCase("quit")) {
                 gameRunning = false;
-                System.out.println("Goodbye.");
+                System.out.println("Boooooooo! You're no fun! Bye!");
                 in.close();
 
                 // Command has 1 word - Check if it is a valid verb and execute it.

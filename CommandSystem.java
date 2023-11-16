@@ -86,13 +86,7 @@ public class CommandSystem {
                 state.dropItem(noun);
                 break;
             case "north":
-                Location nextLocation = state.currentLocation.getAdjacentLocation(Direction.NORTH);
-                if (nextLocation != null) {
-                    state.currentLocation = nextLocation;
-                    System.out.println(state.currentLocation.description);
-                } else {
-                    System.out.println("There's nothing in that direction.");
-                }
+                state.move(Direction.NORTH);
                 break;
             case "east":
                 state.move(Direction.EAST);

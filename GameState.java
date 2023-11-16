@@ -68,7 +68,7 @@ public class GameState {
         // THE NEXT LOCATION AFTER YOU GO NORTH- Great Hall
         Location GreatHall = new Location();
         GreatHall.name = "Great Hall";
-        GreatHall.description = "You walk down the stairs and you are now in the Great Hall. Hogwarts main gathering place. There is a door to the south But it's locked. \nThere is also another flight of stairs to the east.";
+        GreatHall.description = "You walk down the Grand Staircase and you are now in the Great Hall. Hogwarts main gathering place. There is a door to the south But it's locked. \nThere is also another flight of stairs to the east.";
         GreatHall.lookaround = "You are in the Great Hall. There is a door to the south, but there is a lock on it. There is also another flight of stairs to the east.";
         String[] nouns = {"south", "east"};
             for (String noun : nouns) {
@@ -83,7 +83,7 @@ public class GameState {
         // currentLocation.nextLocation =  GreatHall;
         Location SouthofDoor = new Location();
         SouthofDoor.name = "South of Door";
-        SouthofDoor.description = "There is a door here, but its locked. I wonder if there is a key somewhere. If I go back north, I will be in the Great Hall.";
+        SouthofDoor.description = "There is a door here, but its locked. I wonder if there is a key somewhere. \n If I go back north, I will be in the Great Hall.";
         SouthofDoor.lookaround = "There is a key on the ground. I wonder if it will open the door.";
         commandSystem.addNoun("key");
         commandSystem.addNoun("door");
@@ -95,10 +95,10 @@ public class GameState {
 
         // THE NEXT LOCATION AFTER YOU GO EAST - Library
         Location Library = new Location();
-        Library.name = "Library";
-        Library.description = "You are now in the Library. There are books everywhere.";
-        Library.lookaround = "You see books and a quiet study area.";
-        commandSystem.addNoun("Library");
+        Library.name = "Hogwarts Library";
+        Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. There is a door to the west. Maybe the library has a secret room. \n You can also go back to the Great Hall by going west.";
+        Library.lookaround = "You see books and a quiet study area. But there is a mysterious door to the west. There is a key on the library desk.";
+        commandSystem.addNoun("key");
         
         // Set the next location to the east of the current location
 
@@ -117,6 +117,9 @@ public class GameState {
 
         // South of Door connections
         SouthofDoor.setAdjacentLocation(Direction.NORTH, GreatHall); // If user types "north" from SouthofDoor, they will go to GreatHall
+
+        // Library connections
+        Library.setAdjacentLocation(Direction.WEST, GreatHall); // If user types "west" from Library, they will go to GreatHall
 
 
 
