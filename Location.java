@@ -13,6 +13,8 @@ public class Location {
     ArrayList<Location> exits;
     Location nextLocation;
     boolean hasDoor;
+    boolean locked;
+    boolean key;
     boolean isDoorOpen;
     Map<Direction, Location> adjacentLocations = new HashMap<>();
 
@@ -22,6 +24,7 @@ public class Location {
         itemsHere = new ArrayList<>();
         exits = new ArrayList<>();
         adjacentLocations = new HashMap<>();
+        key = false;
     }
 
     public void setAdjacentLocation(Direction direction, Location location) {

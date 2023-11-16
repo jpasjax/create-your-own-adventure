@@ -1,6 +1,7 @@
 public class Player {
     // Other properties...
     int health;
+    boolean key;
 
     public Player() {
         // Other initialization...
