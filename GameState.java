@@ -93,6 +93,10 @@ public class GameState {
         SouthofDoor.lookaround = "There is a key on the ground. I wonder if it will open the door.";
         commandSystem.addNoun("key");
         commandSystem.addNoun("door");
+        SouthofDoor.locked = true;
+        SouthofDoor.hasDoor = true;
+        SouthofDoor.isDoorOpen = false;
+
 
         Location FirstBossFight = new Location();
         FirstBossFight.name = "First Boss Fight";
@@ -106,6 +110,9 @@ public class GameState {
         Library.name = "Hogwarts Library";
         Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. There is a door to the west. Maybe the library has a secret room. \n You can also go back to the Great Hall by going west.";
         Library.lookaround = "You see books and a quiet study area. But there is a mysterious door to the west. There is a key on the library desk.";
+        Library.hasDoor = true;
+        Library.locked = true;
+        Library.isDoorOpen = false;
         commandSystem.addNoun("key");
 
         Location RestrictedSection = new Location();
@@ -158,15 +165,29 @@ public class GameState {
     }
 
     // METHODS //
+    public boolean hasKey() {
+        for (Item item : playerInventory) {
+            if (item.name.equalsIgnoreCase("Key")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void openDoor() {
-        if (currentLocation.hasDoor && !currentLocation.isDoorOpen) {
-            currentLocation.isDoorOpen = true;
-            System.out.println("You open the door.");
-            currentLocation = currentLocation.nextLocation; // Move to the next location
-            System.out.println(currentLocation.description);
+        if (!currentLocation.hasDoor) {
+            System.out.println("There is no door to open.");
+        } else if (currentLocation.locked) {
+            if (hasKey()) {
+                currentLocation.locked = false;
+                System.out.println("You unlocked the door with the key.");
+            } else {
+                System.out.println("The door is locked. You need a key to open it.");
+            }
         } else {
-            System.out.println("There's no door to open.");
+            System.out.println("You opened the door.");
+            currentLocation = currentLocation.nextLocation;
+            System.out.println(currentLocation.description);
         }
     }
     public void pickupItem(String itemName) {
@@ -206,9 +227,9 @@ public class GameState {
     }
 
     if (itemToUse != null) {
-        if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen) {
+        if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen && currentLocation.locked) {
             currentLocation.isDoorOpen = true;
-            System.out.println("You use the key to open the door.");
+            System.out.println("You use the key, the door is unlocked");
             currentLocation = currentLocation.nextLocation; // Move to the next location
             System.out.println(currentLocation.description); // Print the description of the new location
         } else {
@@ -218,6 +239,7 @@ public class GameState {
         System.out.println("You don't have a " + itemName + ".");
     }
 }
+    
     public void dropItem(String itemName) {
         Item itemToDrop = null;
         for (Item item : playerInventory) {

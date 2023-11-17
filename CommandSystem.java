@@ -71,6 +71,7 @@ public class CommandSystem {
     
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
+        
         switch (verb) {
             case "l":
             case "look": // will show the description of the current room (stored in the state object)
@@ -104,6 +105,7 @@ public class CommandSystem {
             case "health":
                 System.out.println("Your current health is: " + state.player.health);
                 break;
+                
             
         }
     }
