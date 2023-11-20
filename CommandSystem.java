@@ -45,11 +45,11 @@ public class CommandSystem {
         addVerb("south", "Move to the south.");
         addVerb("west", "Move to the west.");
         addVerb("open", "Open a door in your current area.");
-        addVerb("pickup", "Pick up an item in your current area.");
+        addVerb("pickup", "Pick up an item in your current area. \nUsage: pickup book");
         addVerb("inventory", "Display the items in your inventory.");
-        addVerb("use", "Use an item from your inventory.");
-        addVerb("drop", "Drop an item from your inventory.");
-        addVerb("talk", "Talk to an NPC.");
+        addVerb("use", "Use an item from your inventory. \n Usage: use book");
+        addVerb("drop", "Drop an item from your inventory. \n Usage: drop book");
+        addVerb("talk", "Talk to an NPC. \n Usage: talk NPCname");
         addVerb("health", "Check your current health.");
         addVerb("attack", "Attack an enemy.");
         addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the

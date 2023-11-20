@@ -96,6 +96,7 @@ public class GameState {
         SouthofDoor.locked = true;
         SouthofDoor.hasDoor = true;
         SouthofDoor.isDoorOpen = false;
+        
 
 
         Location FirstBossFight = new Location();
@@ -135,6 +136,7 @@ public class GameState {
 
         // South of Door connections
         SouthofDoor.setAdjacentLocation(Direction.NORTH, GreatHall); // If user types "north" from SouthofDoor, they will go to GreatHall
+        SouthofDoor.nextLocation = FirstBossFight; // If user unlocks and opens the door, they will go to FirstBossFight and they cannot go back to SouthofDoor
 
         // Library connections
         Library.setAdjacentLocation(Direction.WEST, GreatHall); // If user types "west" from Library, they will go to GreatHall
@@ -145,10 +147,40 @@ public class GameState {
 
         Item wand = new Item();
         wand.name = "Wand";
-        wand.description = "A magical wand.";
+        wand.description = "A magical wand. It is made of wood and has a phoenix feather core. It is 11 inches long. \n It is the most important item in the game. You can use it to cast spells and fight enemies.";
         items.add(wand);
         playerInventory.add(wand);
         commandSystem.addNoun("wand");
+
+        Item invisibilityCloak = new Item();
+        invisibilityCloak.name = "Invisibility Cloak";
+        invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. \n It is the second most important item in the game. You can use it to sneak past enemies.";
+        items.add(invisibilityCloak);
+        commandSystem.addNoun("invisibility cloak");
+
+        Item potion = new Item();
+        potion.name = "Healing Potion";
+        potion.description = "A potion. It is a magical liquid that can be used to heal you. \n It is the third most important item in the game. You can use it to heal yourself.";
+        items.add(potion);
+        commandSystem.addNoun("potion");
+
+        Item book = new Item();
+        book.name = "Book";
+        book.description = "A book. It is a magical book that can be used to learn spells. \n It is the fourth most important item in the game. You can use it to learn spells.";
+        items.add(book);
+        commandSystem.addNoun("book");
+
+        Item broomstick = new Item();
+        broomstick.name = "Broomstick";
+        broomstick.description = "A broomstick. It is a magical broomstick that can be used to fly. \n It is the fifth most important item in the game. You can use it to fly.";
+        items.add(broomstick);
+        commandSystem.addNoun("broomstick");
+
+        Item swordItem = new Item();
+        swordItem.name = "Sword";
+        swordItem.description = "A sword. It is a magical sword that can be used to fight enemies. \n It is the sixth most important item in the game. You can use it to fight enemies.";
+        items.add(swordItem);
+        commandSystem.addNoun("sword");
 
         items = new ArrayList<>();
         Item key = new Item();
@@ -175,6 +207,7 @@ public class GameState {
     }
 
     public void openDoor() {
+
         if (!currentLocation.hasDoor) {
             System.out.println("There is no door to open.");
         } else if (currentLocation.locked) {
@@ -229,9 +262,9 @@ public class GameState {
     if (itemToUse != null) {
         if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen && currentLocation.locked) {
             currentLocation.isDoorOpen = true;
-            System.out.println("You use the key, the door is unlocked");
-            currentLocation = currentLocation.nextLocation; // Move to the next location
-            System.out.println(currentLocation.description); // Print the description of the new location
+            currentLocation.locked = false;
+            System.out.println("You use the key, the door is unlocked, now try to open it.");
+            // Move to the next location
         } else {
             System.out.println("You can't use the " + itemToUse.name + " here.");
         }
