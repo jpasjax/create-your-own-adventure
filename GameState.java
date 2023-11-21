@@ -101,7 +101,7 @@ public class GameState {
 
         Location FirstBossFight = new Location();
         FirstBossFight.name = "First Boss Fight";
-        FirstBossFight.description = "You feel a cold prescence.......... \n The door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
+        FirstBossFight.description = "You feel a cold prescence.......... \nThe door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
         FirstBossFight.lookaround = "You see a dementor. You must fight it in order to continue. \n ";
 
         
@@ -109,7 +109,7 @@ public class GameState {
         // THE NEXT LOCATION AFTER YOU GO EAST - Library
         Location Library = new Location();
         Library.name = "Hogwarts Library";
-        Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. There is a door to the west. Maybe the library has a secret room. \n You can also go back to the Great Hall by going west.";
+        Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. But there is a mysterious door in here. Maybe the library has a secret room. \nYou can also head to you first class if you go South \nYou can also go back to the Great Hall by going west.";
         Library.lookaround = "You see books and a quiet study area. But there is a mysterious door to the west. There is a key on the library desk.";
         Library.hasDoor = true;
         Library.locked = true;
@@ -118,6 +118,9 @@ public class GameState {
 
         Location RestrictedSection = new Location();
         RestrictedSection.name = "Restricted Section";
+        RestrictedSection.description = "idk what to put here";
+        RestrictedSection.lookaround = "idk what to put here";
+
         
         // Set the next location to the east of the current location
 
@@ -140,6 +143,11 @@ public class GameState {
 
         // Library connections
         Library.setAdjacentLocation(Direction.WEST, GreatHall); // If user types "west" from Library, they will go to GreatHall
+        Library.setAdjacentLocation(Direction.SOUTH, PotionClass); // If user types "south" from Library, they will go to PotionClass
+        Library.nextLocation = RestrictedSection; // If user unlocks and opens the door, they will go to RestrictedSection.
+
+        // Restricted Section connections
+        RestrictedSection.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from RestrictedSection, they will go to Library
 
 
 
