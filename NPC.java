@@ -1,15 +1,21 @@
 public class NPC {
-    String name;
-    String description;
-    String dialogue;
+    public String name;
+    public String description;
+    public String dialouge;
 
-    public NPC(String name, String description, String dialogue) {
+    // Other properties...
+
+    public NPC(String name, String description, String dialouge) {
         this.name = name;
         this.description = description;
-        this.dialogue = dialogue;
+        this.dialouge = dialouge;
+        // Other properties...
+    
+    
+
     }
 
     public void talk() {
-        System.out.println(dialogue);
+        System.out.println(dialouge);
     }
 }

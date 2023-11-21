@@ -27,7 +27,7 @@ public class GameState {
     CommandSystem commandSystem;
     List<Item> items;
     List<Item> playerInventory;
-    List<NPC> npcs = new ArrayList<>();
+    public List<NPC> npcs = new ArrayList<>();
     Player player;
     List<Enemy> enemies;
 
@@ -59,7 +59,13 @@ public class GameState {
         // easily)
         
         // NPC'S THAT WILL BE ADDED IN THE GAME
-        npcs.add(new NPC("Bob", "A friendly NPC.", "Hello, player!"));
+        NPC Joseph = new NPC("Joseph", "Your friend is here", "Well hello, I havent seen you here before. I am Joseph. I am a first year here at Hogwarts. I am in Gryffindor. I think we can be really good friends.");
+        npcs.add(Joseph);
+        commandSystem.addNoun("Joseph");
+
+        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.", "Hello young wizard. I am the headmaster of Hogwarts." + "\n" + "I am here to help you on your journey.");
+        npcs.add(wizard);
+        commandSystem.addNoun("wizard");
 
         // LOCATIONS IN THE GAME //
 
@@ -67,7 +73,7 @@ public class GameState {
         currentLocation = new Location();
         currentLocation.name = "Room";
         currentLocation.description = "Welcome to Hogwarts School of Wizardry, young wizard. You are in your first year room. There is a hallway you walk to in the north of your room";
-        currentLocation.lookaround = "You are in your dorm room. There is a hallway you walk to in the north of your room";
+        currentLocation.lookaround = "You are in your dorm room. There is a hallway you walk to in the north of your room. \nYour friend Joseph is here. Talk to him to learn more about the game.";
         commandSystem.addNoun("north");
 
 
@@ -314,6 +320,7 @@ public class GameState {
                 return npc;
             }
         }
+
         return null;
     }
     public Enemy findEnemy(String name) {
