@@ -59,11 +59,11 @@ public class GameState {
         // easily)
         
         // NPC'S THAT WILL BE ADDED IN THE GAME
-        NPC Joseph = new NPC("Joseph", "Your friend is here", "Well hello, I havent seen you here before. I am Joseph. I am a first year here at Hogwarts. I am in Gryffindor. I think we can be really good friends.");
+        NPC Joseph = new NPC("Joseph", "Your friend is here", "Joseph: Well hello, I havent seen you here before. I am Joseph. I am a first year here at Hogwarts. I am in Gryffindor. I think we can be really good friends.");
         npcs.add(Joseph);
         commandSystem.addNoun("Joseph");
 
-        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.", "I'm not sure what is through that door, but I have a bad feeling about it. Please be careful.");
+        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.", "Wizard: I'm not sure what is through that door, but I have a bad feeling about it. Please be careful.");
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
