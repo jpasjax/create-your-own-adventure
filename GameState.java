@@ -63,7 +63,7 @@ public class GameState {
         npcs.add(Joseph);
         commandSystem.addNoun("Joseph");
 
-        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.", "Hello young wizard. I am the headmaster of Hogwarts." + "\n" + "I am here to help you on your journey.");
+        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.", "I'm not sure what is through that door, but I have a bad feeling about it. Please be careful.");
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
@@ -95,10 +95,11 @@ public class GameState {
         // currentLocation.nextLocation =  GreatHall;
         Location SouthofDoor = new Location();
         SouthofDoor.name = "South of Door";
-        SouthofDoor.description = "There is a door here, but its locked. I wonder if there is a key somewhere. \n If I go back north, I will be in the Great Hall.";
-        SouthofDoor.lookaround = "There is a key on the ground. I wonder if it will open the door.";
+        SouthofDoor.description = "There is a door here, but its locked. I wonder if there is a key somewhere. \nIf I go back north, I will be in the Great Hall.";
+        SouthofDoor.lookaround = "There is a key on the ground. I wonder if it will open the door.\n There is a friendly wizard here. I wonder what he has to say.";
         commandSystem.addNoun("key");
         commandSystem.addNoun("door");
+        commandSystem.addNoun("wizard");
         SouthofDoor.locked = true;
         SouthofDoor.hasDoor = true;
         SouthofDoor.isDoorOpen = false;
