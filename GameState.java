@@ -67,6 +67,9 @@ public class GameState {
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
+        // ENEMIES THAT WILL BE ADDED IN THE GAME
+        Enemy dementor = new Enemy("Dementor", 100, 20);
+
         // LOCATIONS IN THE GAME //
 
         // STARTING LOCATION - Room
@@ -109,7 +112,10 @@ public class GameState {
         Location FirstBossFight = new Location();
         FirstBossFight.name = "First Boss Fight";
         FirstBossFight.description = "Checkpoint: \nYou feel a cold prescence.......... \nThe door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
-        FirstBossFight.lookaround = "You see a dementor. You must fight it in order to continue. \n ";
+        FirstBossFight.lookaround = "You see a dementor. You must fight it in order to continue. \nThe Dementor has 100 health. ";
+        FirstBossFight.enemies = new ArrayList<>();
+        FirstBossFight.enemies.add(dementor);
+        commandSystem.addNoun("Dementor");
 
         
 
@@ -326,8 +332,8 @@ public class GameState {
     }
     public Enemy findEnemy(String name) {
         enemies = new ArrayList<>();
-        for (Enemy enemy : enemies) {
-            if (enemy.name.equals(name)) {
+        for (Enemy enemy : currentLocation.enemies) {
+            if (enemy.name.equalsIgnoreCase(name)) {
                 return enemy;
             }
         }

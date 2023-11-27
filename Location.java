@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +17,7 @@ public class Location {
     boolean locked;
     boolean key;
     boolean isDoorOpen;
+    public List<Enemy> enemies;
     Map<Direction, Location> adjacentLocations = new HashMap<>();
 
 
@@ -65,8 +67,12 @@ public class Location {
     public void removeExit(Location exit) {
         exits.remove(exit);
     }
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
+    }
+}
 
 
     // Add getters and setters here
-}
+
 

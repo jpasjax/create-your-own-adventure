@@ -132,14 +132,22 @@ public class CommandSystem {
                 state.pickupItem(noun);
                 break;
             case "attack":
-                Enemy enemy = state.findEnemy(noun);
+                Enemy enemy = state.findEnemy(noun.toLowerCase());
                 if (enemy != null) {
                     state.player.attack(enemy);
-                    if (enemy.health > 0) {
+                    if (enemy.health <= 0) {
+                        System.out.println("You killed the " + enemy.name + "!");
+                        state.currentLocation.removeEnemy(enemy);
+                    } else {
+                        System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
                         enemy.attack(state.player);
+                        if (state.player.health <= 0) {
+                            System.out.println("You died! But your adventure doesn't have to end here. Try again! \n\n  ");
+                            System.exit(0);
+                        }
                     }
                 } else {
-                    System.out.println("There's no enemy by that name here.");
+                    System.out.println("There's no one by that name here.");
                 }
                 break;
             case "talk":
