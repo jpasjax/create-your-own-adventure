@@ -108,7 +108,7 @@ public class GameState {
 
         Location FirstBossFight = new Location();
         FirstBossFight.name = "First Boss Fight";
-        FirstBossFight.description = "You feel a cold prescence.......... \nThe door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
+        FirstBossFight.description = "Checkpoint: \nYou feel a cold prescence.......... \nThe door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
         FirstBossFight.lookaround = "You see a dementor. You must fight it in order to continue. \n ";
 
         
