@@ -116,6 +116,7 @@ public class GameState {
         FirstBossFight.enemies = new ArrayList<>();
         FirstBossFight.enemies.add(dementor);
         commandSystem.addNoun("Dementor");
+        commandSystem.addNoun("wand");
 
         
 
@@ -141,7 +142,7 @@ public class GameState {
         Location PotionClass = new Location();
         PotionClass.name = "Potion Class";
         PotionClass.description = "You are now in the Potion Class. There are potions brewing.";
-        PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes.";
+        PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes. There is a healing potion on the desk. \nYou can go back to the Library by going north.";
         commandSystem.addNoun("Potion Class");
 
         // LOCATION CONNECTIONS //
@@ -159,12 +160,18 @@ public class GameState {
         Library.setAdjacentLocation(Direction.SOUTH, PotionClass); // If user types "south" from Library, they will go to PotionClass
         Library.nextLocation = RestrictedSection; // If user unlocks and opens the door, they will go to RestrictedSection.
 
+        // Potion Class connections
+        PotionClass.setAdjacentLocation(Direction.NORTH, Library); // If user types "north" from PotionClass, they will go to Library
+
         // Restricted Section connections
         RestrictedSection.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from RestrictedSection, they will go to Library
 
 
 
+
+
     // ITEMS //
+
 
         Item wand = new Item();
         wand.name = "Wand";
@@ -213,6 +220,7 @@ public class GameState {
         // ITEMS IN LOCATIONS //
         SouthofDoor.itemsHere.add(key); // Add the key to the SouthofDoor location
         Library.itemsHere.add(key); // Add the key to the Library location
+        PotionClass.itemsHere.add(potion); // Add the key to the PotionClass location
 
         
     }
@@ -285,6 +293,7 @@ public class GameState {
             currentLocation.isDoorOpen = true;
             currentLocation.locked = false;
             System.out.println("You use the key, the door is unlocked, now try to open it.");
+            playerInventory.remove(itemToUse);
             // Move to the next location
         } else {
             System.out.println("You can't use the " + itemToUse.name + " here.");

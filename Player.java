@@ -1,3 +1,6 @@
+import java.util.Random;
+
+
 public class Player {
     // Other properties...
     int health;
@@ -20,7 +23,10 @@ public class Player {
     }
 
     public void attack(Enemy enemy) {
-        enemy.health -= 10; // Or some other amount
+        Random random = new Random();
+        int randomDamage = random.nextInt(10 + 1);
+        enemy.health -= randomDamage; // Or some other amount
+
     }
     // Other methods...
 }

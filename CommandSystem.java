@@ -11,6 +11,7 @@ import java.util.*;
 
 public class CommandSystem {
     private GameState state;
+    
 
     // ArrayList to store all of the verbs that the game knows about. (This is a
     // parallel array with the verbDescription arraylist)

@@ -1,3 +1,6 @@
+import java.util.Random;
+
+
 public class Enemy {
     String name;
     int health;
@@ -10,6 +13,8 @@ public class Enemy {
     }
 
     public void attack(Player player) {
-        player.decreaseHealth(damage);
+        Random random = new Random();
+        int randomDamage = random.nextInt(damage + 1);
+        player.decreaseHealth(randomDamage);
     }
 }
