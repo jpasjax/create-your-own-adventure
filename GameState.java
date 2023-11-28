@@ -47,23 +47,24 @@ public class GameState {
      * You should do better!
      */
 
-     
     public GameState() {
         commandSystem = new CommandSystem(this);
-        
+
         // Create first (starting) location
         items = new ArrayList<>();
         playerInventory = new ArrayList<>();
         player = new Player();
         // (and store it in currentLocation so I can always referece where the player is
         // easily)
-        
+
         // NPC'S THAT WILL BE ADDED IN THE GAME
-        NPC Joseph = new NPC("Joseph", "Your friend is here", "Joseph: Well hello, I havent seen you here before. I am Joseph. I am a first year here at Hogwarts. I am in Gryffindor. I think we can be really good friends.");
+        NPC Joseph = new NPC("Joseph", "Your friend is here",
+                "Joseph: Well hello, I havent seen you here before. I am Joseph. I am a first year here at Hogwarts. I am in Gryffindor. I think we can be really good friends.");
         npcs.add(Joseph);
         commandSystem.addNoun("Joseph");
 
-        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.", "Wizard: I'm not sure what is through that door, but I have a bad feeling about it. Please be careful.");
+        NPC wizard = new NPC("Wizard", "A wise old man with a long beard and a pointy hat.",
+                "Wizard: I'm not sure what is through that door, but I have a bad feeling about it. Please be careful.");
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
@@ -79,23 +80,21 @@ public class GameState {
         currentLocation.lookaround = "You are in your dorm room. There is a hallway you walk to in the north of your room. \nYour friend Joseph is here. Talk to him to learn more about the game.";
         commandSystem.addNoun("north");
 
-
         // THE NEXT LOCATION AFTER YOU GO NORTH- Great Hall
         Location GreatHall = new Location();
         GreatHall.name = "Great Hall";
         GreatHall.description = "You walk down the Grand Staircase and you are now in the Great Hall. Hogwarts main gathering place. There is a door to the south But it's locked. \nThere is also another flight of stairs to the east.";
         GreatHall.lookaround = "You are in the Great Hall. There is a door to the south, but there is a lock on it. There is also another flight of stairs to the east.";
-        String[] nouns = {"south", "east"};
-            for (String noun : nouns) {
+        String[] nouns = { "south", "east" };
+        for (String noun : nouns) {
             commandSystem.addNoun(noun);
 
+            currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); // If user types "north" from Room, they
+                                                                             // will go to GreatHall
 
-        currentLocation.setAdjacentLocation(Direction.NORTH, GreatHall); // If user types "north" from Room, they will go to GreatHall
-        
-        
-}
+        }
 
-        // currentLocation.nextLocation =  GreatHall;
+        // currentLocation.nextLocation = GreatHall;
         Location SouthofDoor = new Location();
         SouthofDoor.name = "South of Door";
         SouthofDoor.description = "There is a door here, but its locked. I wonder if there is a key somewhere. \nIf I go back north, I will be in the Great Hall.";
@@ -106,8 +105,6 @@ public class GameState {
         SouthofDoor.locked = true;
         SouthofDoor.hasDoor = true;
         SouthofDoor.isDoorOpen = false;
-        
-
 
         Location FirstBossFight = new Location();
         FirstBossFight.name = "First Boss Fight";
@@ -117,8 +114,6 @@ public class GameState {
         FirstBossFight.enemies.add(dementor);
         commandSystem.addNoun("Dementor");
         commandSystem.addNoun("wand");
-
-        
 
         // THE NEXT LOCATION AFTER YOU GO EAST - Library
         Location Library = new Location();
@@ -135,7 +130,6 @@ public class GameState {
         RestrictedSection.description = "idk what to put here";
         RestrictedSection.lookaround = "idk what to put here";
 
-        
         // Set the next location to the east of the current location
 
         // THE NEXT LOCATION AFTER YOU GO WEST - Potion Class
@@ -148,30 +142,34 @@ public class GameState {
         // LOCATION CONNECTIONS //
 
         // Great Hall connections
-        GreatHall.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from GreatHall, they will go to Library
-        GreatHall.setAdjacentLocation(Direction.SOUTH, SouthofDoor); // If user types "south" from GreatHall, they will go to SouthofDoor
+        GreatHall.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from GreatHall, they will go to
+                                                                // Library
+        GreatHall.setAdjacentLocation(Direction.SOUTH, SouthofDoor); // If user types "south" from GreatHall, they will
+                                                                     // go to SouthofDoor
 
         // South of Door connections
-        SouthofDoor.setAdjacentLocation(Direction.NORTH, GreatHall); // If user types "north" from SouthofDoor, they will go to GreatHall
-        SouthofDoor.nextLocation = FirstBossFight; // If user unlocks and opens the door, they will go to FirstBossFight and they cannot go back to SouthofDoor
+        SouthofDoor.setAdjacentLocation(Direction.NORTH, GreatHall); // If user types "north" from SouthofDoor, they
+                                                                     // will go to GreatHall
+        SouthofDoor.nextLocation = FirstBossFight; // If user unlocks and opens the door, they will go to FirstBossFight
+                                                   // and they cannot go back to SouthofDoor
 
         // Library connections
-        Library.setAdjacentLocation(Direction.WEST, GreatHall); // If user types "west" from Library, they will go to GreatHall
-        Library.setAdjacentLocation(Direction.SOUTH, PotionClass); // If user types "south" from Library, they will go to PotionClass
-        Library.nextLocation = RestrictedSection; // If user unlocks and opens the door, they will go to RestrictedSection.
+        Library.setAdjacentLocation(Direction.WEST, GreatHall); // If user types "west" from Library, they will go to
+                                                                // GreatHall
+        Library.setAdjacentLocation(Direction.SOUTH, PotionClass); // If user types "south" from Library, they will go
+                                                                   // to PotionClass
+        Library.nextLocation = RestrictedSection; // If user unlocks and opens the door, they will go to
+                                                  // RestrictedSection.
 
         // Potion Class connections
-        PotionClass.setAdjacentLocation(Direction.NORTH, Library); // If user types "north" from PotionClass, they will go to Library
+        PotionClass.setAdjacentLocation(Direction.NORTH, Library); // If user types "north" from PotionClass, they will
+                                                                   // go to Library
 
         // Restricted Section connections
-        RestrictedSection.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from RestrictedSection, they will go to Library
+        RestrictedSection.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from RestrictedSection,
+                                                                        // they will go to Library
 
-
-
-
-
-    // ITEMS //
-
+        // ITEMS //
 
         Item wand = new Item();
         wand.name = "Wand";
@@ -187,7 +185,7 @@ public class GameState {
         commandSystem.addNoun("invisibility cloak");
 
         Item potion = new Item();
-        potion.name = "Healing Potion";
+        potion.name = "Potion";
         potion.description = "A potion. It is a magical liquid that can be used to heal you. \n It is the third most important item in the game. You can use it to heal yourself.";
         items.add(potion);
         commandSystem.addNoun("potion");
@@ -222,7 +220,6 @@ public class GameState {
         Library.itemsHere.add(key); // Add the key to the Library location
         PotionClass.itemsHere.add(potion); // Add the key to the PotionClass location
 
-        
     }
 
     // METHODS //
@@ -252,6 +249,7 @@ public class GameState {
             System.out.println(currentLocation.description);
         }
     }
+
     public void pickupItem(String itemName) {
         Item itemToPickup = null;
         for (Item item : currentLocation.itemsHere) {
@@ -260,7 +258,7 @@ public class GameState {
                 break;
             }
         }
-    
+
         if (itemToPickup != null) {
             currentLocation.itemsHere.remove(itemToPickup);
             playerInventory.add(itemToPickup);
@@ -269,6 +267,7 @@ public class GameState {
             System.out.println("There's no " + itemName + " to pick up.");
         }
     }
+
     public void displayInventory() {
         if (playerInventory.isEmpty()) {
             System.out.println("Your inventory is empty.");
@@ -279,30 +278,53 @@ public class GameState {
             }
         }
     }
+
     public void useItem(String itemName) {
-    Item itemToUse = null;
-    for (Item item : playerInventory) {
-        if (item.name.equalsIgnoreCase(itemName)) {
-            itemToUse = item;
-            break;
+        Item itemToUse = null;
+        for (Item item : playerInventory) {
+            if (item.name.equalsIgnoreCase(itemName)) {
+                itemToUse = item;
+                break;
+            }
         }
+
+        if (itemToUse == null) {
+            System.out.println("You can't use the " + itemName + " here.");
+            return;
+        }
+
+        switch (itemToUse.name.toLowerCase()) {
+            case "key":
+                if (currentLocation.hasDoor && !currentLocation.isDoorOpen && currentLocation.locked) {
+                    currentLocation.isDoorOpen = true;
+                    currentLocation.locked = false;
+                    System.out.println("You use the key, the door is unlocked, now try to open it.");
+                    playerInventory.remove(itemToUse);
+
+                } else {
+                    System.out.println("You can't use the " + itemToUse.name + " here.");
+                }
+                break;
+            case "wand":
+                if (currentLocation.enemies != null) {
+                    for (Enemy enemy : currentLocation.enemies) {
+                        enemy.health -= 25;
+                        System.out.println("You used your wand and did 25 damage to the " + enemy.name + ".");
+                        System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
+                        player.decreaseHealth(5);
+                        if (enemy.health <= 0) {
+                            System.out.println("You killed the " + enemy.name + ".");
+                            currentLocation.enemies.remove(enemy);
+                        }
+                    }
+                } else {
+                    System.out.println("You can't use the " + itemToUse.name + " here.");
+                }
+                break;
+        }
+
     }
 
-    if (itemToUse != null) {
-        if (itemToUse.name.equalsIgnoreCase("Key") && currentLocation.hasDoor && !currentLocation.isDoorOpen && currentLocation.locked) {
-            currentLocation.isDoorOpen = true;
-            currentLocation.locked = false;
-            System.out.println("You use the key, the door is unlocked, now try to open it.");
-            playerInventory.remove(itemToUse);
-            // Move to the next location
-        } else {
-            System.out.println("You can't use the " + itemToUse.name + " here.");
-        }
-    } else {
-        System.out.println("You don't have a " + itemName + ".");
-    }
-}
-    
     public void dropItem(String itemName) {
         Item itemToDrop = null;
         for (Item item : playerInventory) {
@@ -311,7 +333,7 @@ public class GameState {
                 break;
             }
         }
-    
+
         if (itemToDrop != null) {
             playerInventory.remove(itemToDrop);
             currentLocation.itemsHere.add(itemToDrop);
@@ -320,6 +342,7 @@ public class GameState {
             System.out.println("You don't have a " + itemName + ".");
         }
     }
+
     public void move(Direction direction) {
         Location nextLocation = currentLocation.getAdjacentLocation(direction);
         if (nextLocation != null) {
@@ -330,6 +353,7 @@ public class GameState {
             System.out.println("There's nothing in that direction.");
         }
     }
+
     public NPC findNPC(String name) {
         for (NPC npc : npcs) {
             if (npc.name.equalsIgnoreCase(name)) {
@@ -339,6 +363,7 @@ public class GameState {
 
         return null;
     }
+
     public Enemy findEnemy(String name) {
         enemies = new ArrayList<>();
         for (Enemy enemy : currentLocation.enemies) {
@@ -349,5 +374,5 @@ public class GameState {
         return null;
     }
 }
-    
-    // other methods...
+
+// other methods...
