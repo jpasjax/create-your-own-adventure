@@ -68,6 +68,10 @@ public class GameState {
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
+        NPC professor = new NPC("Professor", "A professor in the potions class", "Professor: Welcome to potions class. \nI am Professor Snape. \nI am the potions teacher. \nI am also the head of Slytherin house. \nI am a very strict teacher. \nI will be teaching you how to make potions. \nPick up the potion on the table there. \nYou can use it to heal yourself.");
+        npcs.add(professor);
+        commandSystem.addNoun("professor");
+
         // ENEMIES THAT WILL BE ADDED IN THE GAME
         Enemy dementor = new Enemy("Dementor", 100, 20);
 
@@ -136,7 +140,7 @@ public class GameState {
         Location PotionClass = new Location();
         PotionClass.name = "Potion Class";
         PotionClass.description = "You are now in the Potion Class. There are potions brewing.";
-        PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes. There is a healing potion on the desk. \nYou can go back to the Library by going north.";
+        PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes. There is a healing potion on the desk. \nSpeak to Professor Snape. He will teach you more about the potion \nYou can go back to the Library by going north.";
         commandSystem.addNoun("Potion Class");
 
         // LOCATION CONNECTIONS //
