@@ -13,17 +13,20 @@ This starter code is designed for the verbs to be stored in the commandSystem.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 // No import statement needed
 
 public class GameState {
-    Location currentLocation;
+    public Location currentLocation;
+    public Location nextLocation;
     Location GreatHall;
     Location SouthofDoor;
     Location Library;
     Location RestrictedSection;
     Location PotionClass;
     Location FirstBossFight;
+    Location outsideHogwarts;
     CommandSystem commandSystem;
     List<Item> items;
     List<Item> playerInventory;
@@ -68,7 +71,8 @@ public class GameState {
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
-        NPC professor = new NPC("Professor", "A professor in the potions class", "Professor: Welcome to potions class. \nI am Professor Snape. \nI am the potions teacher. \nI am also the head of Slytherin house. \nI am a very strict teacher. \nI will be teaching you how to make potions. \nPick up the potion on the table there. \nYou can use it to heal yourself.");
+        NPC professor = new NPC("Professor", "A professor in the potions class",
+                "Professor: Welcome to potions class. \nI am Professor Snape. \nI am the potions teacher. \nI am also the head of Slytherin house. \nI am a very strict teacher. \nI will be teaching you how to make potions. \nPick up the potion on the table there. \nYou can use it to heal yourself.");
         npcs.add(professor);
         commandSystem.addNoun("professor");
 
@@ -143,6 +147,12 @@ public class GameState {
         PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes. There is a healing potion on the desk. \nSpeak to Professor Snape. He will teach you more about the potion \nYou can go back to the Library by going north.";
         commandSystem.addNoun("Potion Class");
 
+        // THE NEXT LOCATION AFTER YOU BEAT THE DEMETOR - First Boss Fight
+        Location outsideHogwarts = new Location();
+        outsideHogwarts.name = "Outside Hogwarts";
+        outsideHogwarts.description = "You have defeated the dementor, you now walk outside the school. If you go south, you will be in Hogsmeade. \nIf you go north, you will be in a thick Forest.";
+        outsideHogwarts.lookaround = "You see a thick forest to the north. You see a village to the south.";
+
         // LOCATION CONNECTIONS //
 
         // Great Hall connections
@@ -172,6 +182,10 @@ public class GameState {
         // Restricted Section connections
         RestrictedSection.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from RestrictedSection,
                                                                         // they will go to Library
+
+        // First Boss Fight connections
+        FirstBossFight.nextLocation = outsideHogwarts; // If user defeats the dementor, they will go to outsideHogwarts
+                                                       // and they cannot go back to FirstBossFight
 
         // ITEMS //
 
@@ -311,14 +325,30 @@ public class GameState {
                 break;
             case "wand":
                 if (currentLocation.enemies != null) {
+                    Random rand = new Random();
                     for (Enemy enemy : currentLocation.enemies) {
-                        enemy.health -= 25;
-                        System.out.println("You used your wand and did 25 damage to the " + enemy.name + ".");
-                        System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
-                        player.decreaseHealth(5);
-                        if (enemy.health <= 0) {
-                            System.out.println("You killed the " + enemy.name + ".");
-                            currentLocation.enemies.remove(enemy);
+                        // 20% chance to miss
+                        if (rand.nextInt(100) < 50) {
+                            System.out.println("You missed the " + enemy.name + ".");
+                            player.decreaseHealth(10);
+                        } else {
+                            enemy.health -= 25;
+                            System.out.println("You used your wand and did 25 damage to the " + enemy.name + ".");
+                            System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
+                            player.decreaseHealth(5);
+                            if (enemy.health <= 0) {
+                                System.out.println("You killed the " + enemy.name + "." + "It dropped an Invisible Cloak.");
+                                Item invisibilityCloak = new Item();
+                                invisibilityCloak.name = "Invisibility Cloak";
+                                invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. \n It is the second most important item in the game. You can use it to sneak past enemies.";
+                                items.add(invisibilityCloak);
+                                commandSystem.addNoun("invisibility cloak");
+                                playerInventory.add(invisibilityCloak);
+                                currentLocation.enemies.remove(enemy);
+                                currentLocation = currentLocation.nextLocation;
+                                System.out.println(currentLocation.description);
+                                break;
+                            }
                         }
                     }
                 } else {
@@ -331,7 +361,19 @@ public class GameState {
                 System.out.println("Your health is now " + player.health + ".");
                 playerInventory.remove(itemToUse);
                 break;
-            
+            case "invisible cloak":
+                if (currentLocation.enemies != null) {
+                    for (Enemy enemy : currentLocation.enemies) {
+                        System.out.println("You used the invisibility cloak and snuck past the " + enemy.name + ".");
+                        currentLocation = currentLocation.nextLocation;
+                        System.out.println(currentLocation.description);
+                        break;
+                    }
+                } else {
+                    System.out.println("You can't use the " + itemToUse.name + " here.");
+                }
+                break;
+
         }
 
     }
