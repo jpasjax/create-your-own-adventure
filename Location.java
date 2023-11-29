@@ -23,6 +23,7 @@ public class Location {
 
 
     public Location() {
+        enemies = new ArrayList<>();
         itemsHere = new ArrayList<>();
         exits = new ArrayList<>();
         adjacentLocations = new HashMap<>();

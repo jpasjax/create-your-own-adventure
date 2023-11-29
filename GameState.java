@@ -114,8 +114,8 @@ public class GameState {
         FirstBossFight.name = "First Boss Fight";
         FirstBossFight.description = "Checkpoint: \nYou feel a cold prescence.......... \nThe door slams behind you. You see a dementor. You must fight it in order to continue. \n ";
         FirstBossFight.lookaround = "You see a dementor. You must fight it in order to continue. \nThe Dementor has 100 health. ";
-        FirstBossFight.enemies = new ArrayList<>();
-        FirstBossFight.enemies.add(dementor);
+        FirstBossFight.enemies = new ArrayList<>(); // Create an empty list of enemies
+        FirstBossFight.enemies.add(dementor); // Add the dementor to the FirstBossFight location
         commandSystem.addNoun("Dementor");
         commandSystem.addNoun("wand");
 
