@@ -321,6 +321,13 @@ public class GameState {
                     System.out.println("You can't use the " + itemToUse.name + " here.");
                 }
                 break;
+            case "potion":
+                player.increaseHealth(25);
+                System.out.println("You used the potion and increased your health by 25.");
+                System.out.println("Your health is now " + player.health + ".");
+                playerInventory.remove(itemToUse);
+                break;
+            
         }
 
     }

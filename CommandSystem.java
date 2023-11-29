@@ -128,6 +128,7 @@ public class CommandSystem {
             case "l":
             case "look":
                 resultString = lookAt(noun);
+                System.out.println(resultString);
                 break;
             case "pickup":
                 state.pickupItem(noun);
