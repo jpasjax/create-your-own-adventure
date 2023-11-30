@@ -251,16 +251,10 @@ public class GameState {
     }
 
     public void openDoor() {
-
         if (!currentLocation.hasDoor) {
             System.out.println("There is no door to open.");
         } else if (currentLocation.locked) {
-            if (hasKey()) {
-                currentLocation.locked = false;
-                System.out.println("You unlocked the door with the key.");
-            } else {
-                System.out.println("The door is locked. You need a key to open it.");
-            }
+            System.out.println("The door is locked. You need a key to open it.");
         } else {
             System.out.println("You opened the door.");
             currentLocation = currentLocation.nextLocation;
@@ -328,7 +322,7 @@ public class GameState {
                     Random rand = new Random();
                     for (Enemy enemy : currentLocation.enemies) {
                         // 20% chance to miss
-                        if (rand.nextInt(100) < 45) {
+                        if (rand.nextInt(100) < 100) {
                             System.out.println("You missed the " + enemy.name + ".");
                             player.decreaseHealth(10);
                         } else {

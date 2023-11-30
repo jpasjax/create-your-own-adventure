@@ -17,8 +17,11 @@ public class Player {
 
     public void decreaseHealth(int amount) {
         health -= amount;
-        if (health < 0) {
+        if (health <= 0) {
+            System.out.println("You died! But your adventure doesn't have to end here. Try again! \n\n");
+            System.exit(0);
             health = 0;
+
         }
     }
 
