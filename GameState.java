@@ -328,7 +328,7 @@ public class GameState {
                     Random rand = new Random();
                     for (Enemy enemy : currentLocation.enemies) {
                         // 20% chance to miss
-                        if (rand.nextInt(100) < 50) {
+                        if (rand.nextInt(100) < 45) {
                             System.out.println("You missed the " + enemy.name + ".");
                             player.decreaseHealth(10);
                         } else {
@@ -337,14 +337,17 @@ public class GameState {
                             System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
                             player.decreaseHealth(5);
                             if (enemy.health <= 0) {
-                                System.out.println("You killed the " + enemy.name + "." + "It dropped an Invisible Cloak.");
-                                Item invisibilityCloak = new Item();
-                                invisibilityCloak.name = "Invisibility Cloak";
-                                invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. \n It is the second most important item in the game. You can use it to sneak past enemies.";
-                                items.add(invisibilityCloak);
-                                commandSystem.addNoun("invisibility cloak");
-                                playerInventory.add(invisibilityCloak);
+                                System.out.println("You killed the " + enemy.name + ".");
                                 currentLocation.enemies.remove(enemy);
+                                if (enemy.name.equalsIgnoreCase("Dementor")) {
+                                    Item invisibilityCloak = new Item();
+                                    invisibilityCloak.name = "Invisibility Cloak";
+                                    invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. \n It is the second most important item in the game. You can use it to sneak past enemies.";
+                                    items.add(invisibilityCloak);
+                                    commandSystem.addNoun("invisibility cloak");
+                                    playerInventory.add(invisibilityCloak);
+                                    System.out.println("You picked up the invisibility cloak. You can use it to sneak past enemies.");
+                                }
                                 currentLocation = currentLocation.nextLocation;
                                 System.out.println(currentLocation.description);
                                 break;
@@ -361,7 +364,7 @@ public class GameState {
                 System.out.println("Your health is now " + player.health + ".");
                 playerInventory.remove(itemToUse);
                 break;
-            case "invisible cloak":
+            case "invisibility cloak":
                 if (currentLocation.enemies != null) {
                     for (Enemy enemy : currentLocation.enemies) {
                         System.out.println("You used the invisibility cloak and snuck past the " + enemy.name + ".");
