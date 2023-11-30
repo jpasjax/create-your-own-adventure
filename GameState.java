@@ -321,8 +321,8 @@ public class GameState {
                 if (currentLocation.enemies != null) {
                     Random rand = new Random();
                     for (Enemy enemy : currentLocation.enemies) {
-                        // 20% chance to miss
-                        if (rand.nextInt(100) < 100) {
+                        // 40% chance to miss
+                        if (rand.nextInt(100) < 40) {
                             System.out.println("You missed the " + enemy.name + ".");
                             player.decreaseHealth(10);
                         } else {
