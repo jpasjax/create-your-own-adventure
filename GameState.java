@@ -76,15 +76,20 @@ public class GameState {
         npcs.add(professor);
         commandSystem.addNoun("professor");
 
+        NPC Olivander = new NPC("Olivander", "The wand guy", "Olivander: Welcome to my wand shop. I am Olivander. I am the wand maker. Seems like you are new here so I will be gifting you a wand. \n Pick up that Fire wand on the table there.");
+        npcs.add(Olivander);
+        commandSystem.addNoun("Olivander");
+
         // ENEMIES THAT WILL BE ADDED IN THE GAME
         Enemy dementor = new Enemy("Dementor", 100, 20);
+        Enemy Aragog = new Enemy("Aragog", 150, 20);
 
         // LOCATIONS IN THE GAME //
 
         // STARTING LOCATION - Room
         currentLocation = new Location();
         currentLocation.name = "Room";
-        currentLocation.description = "Welcome to Hogwarts School of Wizardry, young wizard. You are in your first year room. There is a hallway you walk to in the north of your room";
+        currentLocation.description = "Welcome to Hogwarts School of Wizardry, young wizard. You are in your first year room. There is a hallway you walk to in the north of your room.";
         currentLocation.lookaround = "You are in your dorm room. There is a hallway you walk to in the north of your room. \nYour friend Joseph is here. Talk to him to learn more about the game.";
         commandSystem.addNoun("north");
 
@@ -145,13 +150,32 @@ public class GameState {
         PotionClass.name = "Potion Class";
         PotionClass.description = "You are now in the Potion Class. There are potions brewing.";
         PotionClass.lookaround = "You see potions brewing and a blackboard with potion recipes. There is a healing potion on the desk. \nSpeak to Professor Snape. He will teach you more about the potion \nYou can go back to the Library by going north.";
-        commandSystem.addNoun("Potion Class");
 
         // THE NEXT LOCATION AFTER YOU BEAT THE DEMETOR - First Boss Fight
         Location outsideHogwarts = new Location();
         outsideHogwarts.name = "Outside Hogwarts";
         outsideHogwarts.description = "You have defeated the dementor, you now walk outside the school. If you go south, you will be in Hogsmeade. \nIf you go north, you will be in a thick Forest.";
-        outsideHogwarts.lookaround = "You see a thick forest to the north. You see a village to the south.";
+        outsideHogwarts.lookaround = "You are outside Hogwarts. To the north, is a thick, dark forest. To the south, is Hogsmeade.";
+
+        // Hogsmeade
+        Location Hogsmeade = new Location();
+        Hogsmeade.name = "Hogsmeade";
+        Hogsmeade.description = "You are now in Hogsmeade Village. There is a shop to the east. \nThere is a forest to the north. \nThere is a road to the south.";
+        Hogsmeade.lookaround = "You are in Hogsmeade. There is a wand shop to the east. \nThere is a forest to the north. \nThere is a road to the south.";
+
+        // Wand Shop
+        Location WandShop = new Location();
+        WandShop.name = "Olivander's Wand Shop";
+        WandShop.description = "You are now in the Olivander wand shop. Talk to the Olivander. You can go back to Hogsmeade by going west.";
+        WandShop.lookaround = "You are in the wand shop. Talk to the Olivander. You can go back to Hogsmeade by going west.";
+
+        // Forbidden Forest
+        Location ForbiddenForest = new Location();
+        ForbiddenForest.name = "Forbidden Forest";
+        ForbiddenForest.description = "You are now in the Forbidden Forest. There is Aragog (The giant spider) blocking your path, you must fight it to continue. \nIf you go back south, you will be in Hogsmeade.";
+        ForbiddenForest.lookaround = "You are in the Forbidden Forest. There is a big spider blocking your path, you must fight it to continue. \nIf you go back south, you will be in Hogsmeade.";
+        ForbiddenForest.enemies.add(Aragog);
+
 
         // LOCATION CONNECTIONS //
 
@@ -187,6 +211,18 @@ public class GameState {
         FirstBossFight.nextLocation = outsideHogwarts; // If user defeats the dementor, they will go to outsideHogwarts
                                                        // and they cannot go back to FirstBossFight
 
+        // Outside Hogwarts connections
+        outsideHogwarts.setAdjacentLocation(Direction.SOUTH, Hogsmeade); // If user types "north" from outsideHogwarts,
+                                                                         // they will go to Hogsmeade
+        outsideHogwarts.setAdjacentLocation(Direction.NORTH, ForbiddenForest); // If user types "north" from
+                                                                               // outsideHogwarts, they will go to
+                                                                               // ForbiddenForest
+                                                                         
+        // Hogsmeade connections
+        Hogsmeade.setAdjacentLocation(Direction.NORTH, outsideHogwarts); // If user types "south" from Hogsmeade, they
+                                                                         // will go to outsideHogwarts      
+        Hogsmeade.setAdjacentLocation(Direction.EAST, WandShop); // If user types "east" from Hogsmeade, they will go to                      
+
         // ITEMS //
 
         Item wand = new Item();
@@ -197,10 +233,10 @@ public class GameState {
         commandSystem.addNoun("wand");
 
         Item invisibilityCloak = new Item();
-        invisibilityCloak.name = "Invisibility Cloak";
+        invisibilityCloak.name = "Cloak";
         invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. \n It is the second most important item in the game. You can use it to sneak past enemies.";
         items.add(invisibilityCloak);
-        commandSystem.addNoun("invisibility cloak");
+        commandSystem.addNoun("cloak");
 
         Item potion = new Item();
         potion.name = "Potion";
@@ -214,17 +250,17 @@ public class GameState {
         items.add(book);
         commandSystem.addNoun("book");
 
-        Item broomstick = new Item();
-        broomstick.name = "Broomstick";
-        broomstick.description = "A broomstick. It is a magical broomstick that can be used to fly. \n It is the fifth most important item in the game. You can use it to fly.";
-        items.add(broomstick);
-        commandSystem.addNoun("broomstick");
-
         Item swordItem = new Item();
         swordItem.name = "Sword";
         swordItem.description = "A sword. It is a magical sword that can be used to fight enemies. \n It is the sixth most important item in the game. You can use it to fight enemies.";
         items.add(swordItem);
         commandSystem.addNoun("sword");
+
+        Item fireWand = new Item();
+        fireWand.name = "Fire Wand";
+        fireWand.description = "A Fire wand. It is a magical wand that can be used to cast spells. \n It is the seventh most important item in the game. You can use it to cast spells.";
+        items.add(fireWand);
+        commandSystem.addNoun("fire wand");
 
         items = new ArrayList<>();
         Item key = new Item();
@@ -232,6 +268,8 @@ public class GameState {
         key.description = "A shiny golden key.";
         items.add(key);
         commandSystem.addNoun("key");
+
+
 
         // ITEMS IN LOCATIONS //
         SouthofDoor.itemsHere.add(key); // Add the key to the SouthofDoor location
@@ -335,12 +373,13 @@ public class GameState {
                                 currentLocation.enemies.remove(enemy);
                                 if (enemy.name.equalsIgnoreCase("Dementor")) {
                                     Item invisibilityCloak = new Item();
-                                    invisibilityCloak.name = "Invisibility Cloak";
-                                    invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. \n It is the second most important item in the game. You can use it to sneak past enemies.";
+                                    invisibilityCloak.name = "Cloak";
+                                    invisibilityCloak.description = "An invisibility cloak. It is made of a special material that makes you invisible when you wear it. You can use it to sneak past enemies. You can only use it once.";
                                     items.add(invisibilityCloak);
-                                    commandSystem.addNoun("invisibility cloak");
+                                    commandSystem.addNoun("Cloak");
                                     playerInventory.add(invisibilityCloak);
-                                    System.out.println("You picked up the invisibility cloak. You can use it to sneak past enemies.");
+                                    System.out.println(
+                                            "You picked up the invisibility cloak. You can use it to sneak past enemies.");
                                 }
                                 currentLocation = currentLocation.nextLocation;
                                 System.out.println(currentLocation.description);
@@ -358,10 +397,11 @@ public class GameState {
                 System.out.println("Your health is now " + player.health + ".");
                 playerInventory.remove(itemToUse);
                 break;
-            case "invisibility cloak":
+            case "cloak":
                 if (currentLocation.enemies != null) {
                     for (Enemy enemy : currentLocation.enemies) {
                         System.out.println("You used the invisibility cloak and snuck past the " + enemy.name + ".");
+                        playerInventory.remove(itemToUse);
                         currentLocation = currentLocation.nextLocation;
                         System.out.println(currentLocation.description);
                         break;
@@ -370,6 +410,33 @@ public class GameState {
                     System.out.println("You can't use the " + itemToUse.name + " here.");
                 }
                 break;
+            case "fire wand":
+                if (currentLocation.enemies != null) {
+                    Random rand = new Random();
+                    for (Enemy enemy : currentLocation.enemies) {
+                        // 40% chance to miss
+                        if (rand.nextInt(100) < 60) {
+                            System.out.println("You missed the " + enemy.name + ".");
+                            player.decreaseHealth(15);
+                        } else {
+                            enemy.health -= 50;
+                            System.out.println("You used your Fire wand and did 50 damage to the " + enemy.name + ".");
+                            System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
+                            player.decreaseHealth(10);
+                            if (enemy.health <= 0) {
+                                System.out.println("You killed the " + enemy.name + ".");
+                                currentLocation.enemies.remove(enemy);
+                                currentLocation = currentLocation.nextLocation;
+                                System.out.println(currentLocation.description);
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("You can't use the " + itemToUse.name + " here.");
+                }
+                break;
+
 
         }
 

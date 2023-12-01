@@ -140,6 +140,8 @@ public class CommandSystem {
                     if (enemy.health <= 0) {
                         System.out.println("You killed the " + enemy.name + "!");
                         state.currentLocation.removeEnemy(enemy);
+                        state.currentLocation = state.nextLocation; 
+                        System.out.println(state.currentLocation.description);
                     } else {
                         System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
                         enemy.attack(state.player);
