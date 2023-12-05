@@ -299,7 +299,8 @@ public class GameState {
         fireWand.name = "Fire Wand";
         fireWand.description = "A Fire wand. It is a magical wand that can be used to cast spells. \n It is the seventh most important item in the game. You can use it to cast spells.";
         items.add(fireWand);
-        commandSystem.addNoun("fire wand");
+        commandSystem.addNoun("fire");
+        commandSystem.addNoun("wand");
 
         items = new ArrayList<>();
         Item key = new Item();

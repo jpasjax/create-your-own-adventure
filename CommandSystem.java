@@ -176,8 +176,14 @@ public class CommandSystem {
     // When a command is a Verb followed by two nouns, this method controls the
     // result.
     public void executeVerbNounNoun(String string, String string2, String string3) {
+        // if this is "fire wand"
+  // if this is "fire wand"
+        
 
-    }
+        
+            state.useItem(string2 + " " + string3);
+        }
+    
 
     // Method to take care of looking at a noun.
     public String lookAt(String noun) {
