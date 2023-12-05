@@ -71,12 +71,18 @@ public class GameState {
         npcs.add(wizard);
         commandSystem.addNoun("wizard");
 
+        NPC librarian = new NPC("Librarian", "Nice guy",
+                "Librarian: Shhhhh. Quiet please. This is a library. I am the librarian here. Feel free to roam around anywhere. Anywhere but the door there, that is restricted to authorized personel only. Dont make me call the headmaster.");
+        npcs.add(librarian);
+        commandSystem.addNoun("librarian");
+
         NPC professor = new NPC("Professor", "A professor in the potions class",
                 "Professor: Welcome to potions class. \nI am Professor Snape. \nI am the potions teacher. \nI am also the head of Slytherin house. \nI am a very strict teacher. \nI will be teaching you how to make potions. \nPick up the potion on the table there. \nYou can use it to heal yourself.");
         npcs.add(professor);
         commandSystem.addNoun("professor");
 
-        NPC Olivander = new NPC("Olivander", "The wand guy", "Olivander: Welcome to my wand shop. I am Olivander. I am the wand maker. Seems like you are new here so I will be gifting you a wand. \n Pick up that Fire wand on the table there.");
+        NPC Olivander = new NPC("Olivander", "The wand guy",
+                "Olivander: Welcome to my wand shop. I am Olivander. I am the wand maker. Seems like you are new here so I will be gifting you a wand. \n Pick up that Fire wand on the table there.");
         npcs.add(Olivander);
         commandSystem.addNoun("Olivander");
 
@@ -131,8 +137,8 @@ public class GameState {
         // THE NEXT LOCATION AFTER YOU GO EAST - Library
         Location Library = new Location();
         Library.name = "Hogwarts Library";
-        Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. But there is a mysterious door in here. Maybe the library has a secret room. \nYou can also head to you first class if you go South \nYou can also go back to the Great Hall by going west.";
-        Library.lookaround = "You see books and a quiet study area. But there is a mysterious door to the west. There is a key on the library desk.";
+        Library.description = "You are now in the Hogwarts Library. There are books and a quiet study area. But there is a mysterious door in here but it is locked. Maybe the library has a secret room. \nYou can also head to you first class if you go South \nYou can also go back to the Great Hall by going west.";
+        Library.lookaround = "You see books and a quiet study area. But there is a mysterious door here, but it is locked. There is a key on the library desk. Speak to the librarian about the library.";
         Library.hasDoor = true;
         Library.locked = true;
         Library.isDoorOpen = false;
@@ -140,8 +146,27 @@ public class GameState {
 
         Location RestrictedSection = new Location();
         RestrictedSection.name = "Restricted Section";
-        RestrictedSection.description = "idk what to put here";
-        RestrictedSection.lookaround = "idk what to put here";
+        RestrictedSection.description = "You have made your way to the Restricted Section of the library. To the east, you can back to the library. \nHowever if you go futher south, there is a mysterious entrance to somewhere else.";
+        RestrictedSection.lookaround = "Further south, There is a mysterious entrance. A book has fallen off the shelf. Maybe you should pick it up.";
+
+        Location beforeVault = new Location();
+        beforeVault.name = "Before Vault";
+        beforeVault.description = "You are now in a dark room. There is a secret vault to the south. But a dementor is blocking your path. You must defeat it to continue.  \nYou can go back to the Restricted Section by going north.";
+        beforeVault.lookaround = "You are in a dark room. There is a secret vault to the south. But a dementor is blocking your path. You must defeat it to continue. \nYou can go back to the Restricted Section by going north.";
+        beforeVault.enemies.add(dementor);
+
+        Location VaultEntrance = new Location();
+        VaultEntrance.name = "Vault Entrance";
+        VaultEntrance.description = "You are now at the entrance to the mysterious door. You must unlock it to continue. \nOr you can take the stairs to the east.";
+        VaultEntrance.lookaround = "You are now in the vault entrance. There is a door to the south.";
+        VaultEntrance.hasDoor = true;
+        VaultEntrance.locked = true;
+        VaultEntrance.isDoorOpen = false;
+
+        Location VaultOfFear = new Location();
+        VaultOfFear.name = "Vault of Fear";
+        VaultOfFear.description = "You are now in the Vault of Fear.";
+        
 
         // Set the next location to the east of the current location
 
@@ -176,7 +201,6 @@ public class GameState {
         ForbiddenForest.lookaround = "You are in the Forbidden Forest. There is a big spider blocking your path, you must fight it to continue. \nIf you go back south, you will be in Hogsmeade.";
         ForbiddenForest.enemies.add(Aragog);
 
-
         // LOCATION CONNECTIONS //
 
         // Great Hall connections
@@ -206,6 +230,15 @@ public class GameState {
         // Restricted Section connections
         RestrictedSection.setAdjacentLocation(Direction.EAST, Library); // If user types "east" from RestrictedSection,
                                                                         // they will go to Library
+        RestrictedSection.setAdjacentLocation(Direction.SOUTH, beforeVault); // If user types "south" from
+                                                                             // RestrictedSection, they will go to
+                                                                             // beforeVault
+
+        // Before Vault connections
+        beforeVault.setAdjacentLocation(Direction.NORTH, RestrictedSection); // If user types "north" from beforeVault,
+                                                                             // they will go to RestrictedSection
+        beforeVault.nextLocation = VaultEntrance; // If user defeats the dementor, they will go to outsideHogwarts and
+
 
         // First Boss Fight connections
         FirstBossFight.nextLocation = outsideHogwarts; // If user defeats the dementor, they will go to outsideHogwarts
@@ -217,11 +250,17 @@ public class GameState {
         outsideHogwarts.setAdjacentLocation(Direction.NORTH, ForbiddenForest); // If user types "north" from
                                                                                // outsideHogwarts, they will go to
                                                                                // ForbiddenForest
-                                                                         
+
         // Hogsmeade connections
         Hogsmeade.setAdjacentLocation(Direction.NORTH, outsideHogwarts); // If user types "south" from Hogsmeade, they
-                                                                         // will go to outsideHogwarts      
-        Hogsmeade.setAdjacentLocation(Direction.EAST, WandShop); // If user types "east" from Hogsmeade, they will go to                      
+                                                                         // will go to outsideHogwarts
+        Hogsmeade.setAdjacentLocation(Direction.EAST, WandShop); // If user types "east" from Hogsmeade, they will go to
+
+        // Vault Entrance connections
+        VaultEntrance.setAdjacentLocation(Direction.EAST, outsideHogwarts); // If user types "south" from VaultEntrance,
+                                                                         // they will go to beforeVault
+        VaultEntrance.nextLocation = VaultOfFear; // If user unlocks and opens the door, they will go to VaultOfFear.
+
 
         // ITEMS //
 
@@ -269,12 +308,11 @@ public class GameState {
         items.add(key);
         commandSystem.addNoun("key");
 
-
-
         // ITEMS IN LOCATIONS //
         SouthofDoor.itemsHere.add(key); // Add the key to the SouthofDoor location
         Library.itemsHere.add(key); // Add the key to the Library location
         PotionClass.itemsHere.add(potion); // Add the key to the PotionClass location
+        VaultEntrance.itemsHere.add(key); // Add the key to the VaultEntrance location
 
     }
 
@@ -436,7 +474,8 @@ public class GameState {
                     System.out.println("You can't use the " + itemToUse.name + " here.");
                 }
                 break;
-
+            case "book":
+            break;
 
         }
 
