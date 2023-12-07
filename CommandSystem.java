@@ -162,6 +162,7 @@ public class CommandSystem {
                     if (noun.equalsIgnoreCase("Bellatrix")) {
                         // Change the player's current location to the next location
                         state.currentLocation = state.currentLocation.nextLocation;
+                        System.out.println(state.currentLocation.description);
                         System.out.println("Bellatrix has captured you and took you to the Graveyard.");
                     }
                 } else {

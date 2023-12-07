@@ -100,6 +100,8 @@ public class GameState {
         Enemy dementor = new Enemy("Dementor", 100, 20);
         Enemy Aragog = new Enemy("Aragog", 150, 20);
         Enemy boggart = new Enemy("Boggart", 180, 20);
+        Enemy BellatrixLestrange = new Enemy("Bellatrix Lestrange", 200, 20);
+        Enemy Voldemort = new Enemy("Voldemort", 200, 20);
 
         // LOCATIONS IN THE GAME //
 
@@ -196,6 +198,7 @@ public class GameState {
         VaultOfFear4.name = "Vault of Fear";
         VaultOfFear4.description = "This is it. Defeat Bellatrix Lestrange.";
         VaultOfFear4.lookaround = "There is a super potion on the ground that can be of use to you.";
+        VaultOfFear4.enemies.add(BellatrixLestrange);
 
 
         // Set the next location to the east of the current location
@@ -230,6 +233,21 @@ public class GameState {
         ForbiddenForest.description = "You are now in the Forbidden Forest. There is Aragog (The giant spider) blocking your path, you must fight it to continue. \nIf you go back south, you will be in Hogsmeade.";
         ForbiddenForest.lookaround = "You are in the Forbidden Forest. There is a big spider blocking your path, you must fight it to continue. \nIf you go back south, you will be in Hogsmeade.";
         ForbiddenForest.enemies.add(Aragog);
+
+        Location ForbiddenForest2 = new Location();
+        ForbiddenForest2.name = "Forbidden Forest";
+        ForbiddenForest2.description = "The path has gotten darker. There is a door in front of you. I wonder where it goes?";
+        ForbiddenForest2.lookaround = "The path has gotten darker. There is a door in front of you. I wonder where it goes?";
+        ForbiddenForest2.hasDoor = true;
+
+        Location Graveyard = new Location();
+        Graveyard.name = "Graveyard";
+        Graveyard.description = "Lord Voldemort: At last, You have fallen for my trap young wizard. I know you've seen Harry Potter. So I suggest you tell me where he is. No? Fine I'll get it out of you myself.";
+        Graveyard.lookaround = "There is a potion on the ground that will help you with the fight.";
+        Graveyard.enemies.add(Voldemort);
+
+
+
 
         // LOCATION CONNECTIONS //
 
@@ -290,6 +308,12 @@ public class GameState {
                                                                             // they will go to beforeVault
         VaultEntrance.nextLocation = VaultOfFear; // If user unlocks and opens the door, they will go to VaultOfFear.
 
+        // Forbidden Forest connections
+        ForbiddenForest.nextLocation = ForbiddenForest2; // If user defeats Aragog, they will go to ForbiddenForest2 and
+                                                          // they cannot go back to ForbiddenForest
+
+        ForbiddenForest2.nextLocation = Graveyard; // If user unlocks and opens the door, they will go to Graveyard.
+
         // Vault of Fear Connections
         VaultOfFear.setAdjacentLocation(Direction.EAST, VaultOfFear2);
 
@@ -308,6 +332,11 @@ public class GameState {
         items.add(wand);
         playerInventory.add(wand);
         commandSystem.addNoun("wand");
+
+        Item superPotion = new Item();
+        superPotion.name = "SuperPotion";
+        superPotion.description = "A super potion. It is a magical liquid that can be used to heal you. \n It is the fifth most important item in the game. You can use it to heal yourself.";
+        items.add(superPotion);
 
         Item invisibilityCloak = new Item();
         invisibilityCloak.name = "Cloak";
@@ -353,6 +382,8 @@ public class GameState {
         PotionClass.itemsHere.add(potion); // Add the key to the PotionClass location
         VaultEntrance.itemsHere.add(key); // Add the key to the VaultEntrance location
         VaultOfFear.itemsHere.add(swordItem);
+        VaultOfFear4.itemsHere.add(superPotion);
+        Graveyard.itemsHere.add(superPotion);
 
     }
 
@@ -488,7 +519,7 @@ public class GameState {
                     System.out.println("You can't use the " + itemToUse.name + " here.");
                 }
                 break;
-            case "fire wand":
+            case "firewand":
                 if (currentLocation.enemies != null) {
                     Random rand = new Random();
                     for (Enemy enemy : currentLocation.enemies) {
@@ -539,6 +570,12 @@ public class GameState {
                 } else {
                     System.out.println("You can't use the " + itemToUse.name + " here.");
                 }
+                break;
+                case "superpotion":
+                player.increaseHealth(100);
+                System.out.println("You used the super potion and increased your health by 100.");
+                System.out.println("Your health is now " + player.health + ".");
+                playerInventory.remove(itemToUse);
                 break;
 
         }
