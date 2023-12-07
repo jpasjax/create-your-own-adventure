@@ -154,10 +154,16 @@ public class CommandSystem {
                     System.out.println("There's no one by that name here.");
                 }
                 break;
-            case "talk":
+                case "talk":
                 NPC npc = state.findNPC(noun);
                 if (npc != null) {
                     npc.talk();
+                    // Check if the player is trying to talk to the Goblin
+                    if (noun.equalsIgnoreCase("Bellatrix")) {
+                        // Change the player's current location to the next location
+                        state.currentLocation = state.currentLocation.nextLocation;
+                        System.out.println("Bellatrix has captured you and took you to the Graveyard.");
+                    }
                 } else {
                     System.out.println("There's no one by that name here.");
                 }

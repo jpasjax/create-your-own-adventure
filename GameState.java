@@ -86,9 +86,20 @@ public class GameState {
         npcs.add(Olivander);
         commandSystem.addNoun("Olivander");
 
+        NPC Goblin = new NPC("Goblin", "Hides in the vault",
+                "Goblin: Hahahahahahah. Young wizard you may have put Hogwarts in great danger. By entering the Vault of Fear, you have unleashed beings of great evil. Now it is up to you to undo the damage you have done. \n There is a sword on the ground. Pick that up and be on your way if you want to save Hogwarts. \n But beware. There is a greater danger ahead that you have to worry about.");
+        npcs.add(Goblin);
+        commandSystem.addNoun("Goblin");
+
+        NPC Bellatrix = new NPC("Bellatrix", "Villian 2",
+                "Bellatrix LeStrange: So young wizard, I know you are here to stop me. But you are too late. I will unleash the evil that lies within this vault. I will destroy Hogwarts. I will destroy you.");
+        npcs.add(Bellatrix);
+        commandSystem.addNoun("Bellatrix");
+
         // ENEMIES THAT WILL BE ADDED IN THE GAME
         Enemy dementor = new Enemy("Dementor", 100, 20);
         Enemy Aragog = new Enemy("Aragog", 150, 20);
+        Enemy boggart = new Enemy("Boggart", 180, 20);
 
         // LOCATIONS IN THE GAME //
 
@@ -163,10 +174,29 @@ public class GameState {
         VaultEntrance.locked = true;
         VaultEntrance.isDoorOpen = false;
 
+        // BEGINNING OF ENDING 2 - Vault of Fear
+
         Location VaultOfFear = new Location();
         VaultOfFear.name = "Vault of Fear";
-        VaultOfFear.description = "You are now in the Vault of Fear.";
-        
+        VaultOfFear.description = "You are now in the Vault of Fear. One of the cursed vaults. Continue on east in the vault. Speak to the goblin here.";
+        VaultOfFear.lookaround = "You are now in the Vault of Fear. One of the cursed vaults. Continue on east in the vault. Speak to the goblin here.";
+
+        Location VaultOfFear2 = new Location();
+        VaultOfFear2.name = "Vault of Fear";
+        VaultOfFear2.description = "Bellatrix Lestrange: Hahahahahah, young wizard, you have made it this far. But you will not make it any further. You have unleashed the evil that lies within this vault. You have doomed Hogwarts. You are doomed. \n A boggart has appeared. You must defeat it to continue.";
+        VaultOfFear2.lookaround = "A boggart has appeared. You must defeat it to continue.";
+        VaultOfFear2.enemies.add(boggart);
+
+        Location VaultOfFear3 = new Location();
+        VaultOfFear3.name = "Vault of Fear";
+        VaultOfFear3.description = "The room has gotten dark. Speak to Bellatrix Lestrange. ";
+        VaultOfFear3.lookaround = "The room has gotten dark. Speak to Bellatrix Lestrange. ";
+
+        Location VaultOfFear4 = new Location();
+        VaultOfFear4.name = "Vault of Fear";
+        VaultOfFear4.description = "This is it. Defeat Bellatrix Lestrange.";
+        VaultOfFear4.lookaround = "There is a super potion on the ground that can be of use to you.";
+
 
         // Set the next location to the east of the current location
 
@@ -194,7 +224,7 @@ public class GameState {
         WandShop.description = "You are now in the Olivander wand shop. Talk to the Olivander. You can go back to Hogsmeade by going west.";
         WandShop.lookaround = "You are in the wand shop. Talk to the Olivander. You can go back to Hogsmeade by going west.";
 
-        // Forbidden Forest
+        // BEGINING OF ENDING 1 - Forbidden Forest
         Location ForbiddenForest = new Location();
         ForbiddenForest.name = "Forbidden Forest";
         ForbiddenForest.description = "You are now in the Forbidden Forest. There is Aragog (The giant spider) blocking your path, you must fight it to continue. \nIf you go back south, you will be in Hogsmeade.";
@@ -239,7 +269,6 @@ public class GameState {
                                                                              // they will go to RestrictedSection
         beforeVault.nextLocation = VaultEntrance; // If user defeats the dementor, they will go to outsideHogwarts and
 
-
         // First Boss Fight connections
         FirstBossFight.nextLocation = outsideHogwarts; // If user defeats the dementor, they will go to outsideHogwarts
                                                        // and they cannot go back to FirstBossFight
@@ -258,8 +287,17 @@ public class GameState {
 
         // Vault Entrance connections
         VaultEntrance.setAdjacentLocation(Direction.EAST, outsideHogwarts); // If user types "south" from VaultEntrance,
-                                                                         // they will go to beforeVault
+                                                                            // they will go to beforeVault
         VaultEntrance.nextLocation = VaultOfFear; // If user unlocks and opens the door, they will go to VaultOfFear.
+
+        // Vault of Fear Connections
+        VaultOfFear.setAdjacentLocation(Direction.EAST, VaultOfFear2);
+
+        // Vault of Fear 2
+        VaultOfFear2.nextLocation = VaultOfFear3;
+
+        // Vault of Fear 3
+        VaultOfFear3.nextLocation = VaultOfFear4;
 
 
         // ITEMS //
@@ -314,6 +352,7 @@ public class GameState {
         Library.itemsHere.add(key); // Add the key to the Library location
         PotionClass.itemsHere.add(potion); // Add the key to the PotionClass location
         VaultEntrance.itemsHere.add(key); // Add the key to the VaultEntrance location
+        VaultOfFear.itemsHere.add(swordItem);
 
     }
 
@@ -475,8 +514,32 @@ public class GameState {
                     System.out.println("You can't use the " + itemToUse.name + " here.");
                 }
                 break;
-            case "book":
-            break;
+            case "sword":
+                if (currentLocation.enemies != null) {
+                    Random rand = new Random();
+                    for (Enemy enemy : currentLocation.enemies) {
+                        // 60% chance to miss
+                        if (rand.nextInt(100) < 60) {
+                            System.out.println("You missed the " + enemy.name + ".");
+                            player.decreaseHealth(10);
+                        } else {
+                            enemy.health -= 45;
+                            System.out.println("You used your sword and did 45 damage to the " + enemy.name + ".");
+                            System.out.println("The " + enemy.name + " has " + enemy.health + " health left.");
+                            player.decreaseHealth(5);
+                            if (enemy.health <= 0) {
+                                System.out.println("You killed the " + enemy.name + ".");
+                                currentLocation.enemies.remove(enemy);
+                                currentLocation = currentLocation.nextLocation;
+                                System.out.println(currentLocation.description);
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("You can't use the " + itemToUse.name + " here.");
+                }
+                break;
 
         }
 
