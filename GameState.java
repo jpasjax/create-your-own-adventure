@@ -246,6 +246,12 @@ public class GameState {
         Graveyard.lookaround = "There is a potion on the ground that will help you with the fight.";
         Graveyard.enemies.add(Voldemort);
 
+        Location End = new Location();
+        End.name = "End";
+        End.description = "You did it. You have saved Hogwarts. You have won the game. \nThank you for playing. \nCreated by Jackson Smith and Benjamin Gold";
+        End.lookaround = "You did it. You have saved Hogwarts. You have won the game. \nThank you for playing. \nCreated by Jackson Smith and Benjamin Gold";
+
+
 
 
 
@@ -493,6 +499,27 @@ public class GameState {
                                 currentLocation = currentLocation.nextLocation;
                                 System.out.println(currentLocation.description);
                                 break;
+                                    
+                            }
+                            if (enemy.health <= 0) {
+                                System.out.println("You killed the " + enemy.name + ".");
+                                currentLocation.enemies.remove(enemy);
+                                // Check if the enemy's name is "Voldemort"
+                                if (enemy.name.equalsIgnoreCase("Voldemort")) {
+                                    System.out.println("Congratulations! You have defeated Voldemort and won the game!");
+                                    System.exit(0);
+                                }
+                                break;
+                            }
+                            if (enemy.health <= 0) {
+                                System.out.println("You killed the " + enemy.name + ".");
+                                currentLocation.enemies.remove(enemy);
+                                // Check if the enemy's name is "Voldemort"
+                                if (enemy.name.equalsIgnoreCase("BellatrixLestrange")) {
+                                    System.out.println("Congratulations! You have defeated BellatrixLestrange and won the game!");
+                                    System.exit(0);
+                                }
+                                break;
                             }
                         }
                     }
@@ -563,6 +590,28 @@ public class GameState {
                                 currentLocation.enemies.remove(enemy);
                                 currentLocation = currentLocation.nextLocation;
                                 System.out.println(currentLocation.description);
+                                if (enemy.health <= 0) {
+                                    System.out.println("You killed the " + enemy.name + ".");
+                                    currentLocation.enemies.remove(enemy);
+                                    // Check if the enemy's name is "Voldemort"
+                                    if (enemy.name.equalsIgnoreCase("Voldemort")) {
+                                        System.out.println("Congratulations! You have defeated Voldemort and won the game!");
+                                        System.exit(0);
+                                    }
+                                    currentLocation = currentLocation.nextLocation;
+                                    System.out.println(currentLocation.description);
+                                    break;
+                                }
+                                if (enemy.health <= 0) {
+                                    System.out.println("You killed the " + enemy.name + ".");
+                                    currentLocation.enemies.remove(enemy);
+                                    // Check if the enemy's name is "Voldemort"
+                                    if (enemy.name.equalsIgnoreCase("BellatrixLestrange")) {
+                                        System.out.println("Congratulations! You have defeated BellatrixLestrange and won the game!");
+                                        System.exit(0);
+                                    }
+                                    break;
+                                }
                                 break;
                             }
                         }
